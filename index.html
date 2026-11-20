@@ -113,54 +113,90 @@
       </div>
     </div>
 
-    <section class="features">
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="notebook-pen"></i></div>
+    <section class="features" aria-label="Workspace tools">
+      <button class="feature feature-action" type="button" onclick="openEditor()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="book-open" aria-hidden="true">▤</i></span>
         <b>Routine Editor</b>
         <span>Manage periods, subjects, teachers, rooms and weekly schedules.</span>
-      </div>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="chart-no-axes-combined"></i></div>
+      <button class="feature feature-action" type="button" onclick="openAnalytics()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="chart-no-axes-combined" aria-hidden="true">▥</i></span>
         <b>Analytics</b>
-        <span>Understand your weekly schedule and subject distribution.</span>
-      </div>
+        <span>Explore your weekly schedule and recorded activity.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="link-2"></i></div>
+      <button class="feature feature-action" type="button" onclick="shareRoutine()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="share-2" aria-hidden="true">↗</i></span>
         <b>Share</b>
         <span>Share routines through supported codes, links or exported files.</span>
-      </div>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="printer"></i></div>
+      <button class="feature feature-action" type="button" onclick="printRoutine()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="printer" aria-hidden="true">▣</i></span>
         <b>Print</b>
-        <span>Generate clean timetable views for printing or saving.</span>
-      </div>
+        <span>Prepare clean timetable views for printing or saving.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="bell"></i></div>
-        <b>Notifications</b>
-        <span>Optional reminders while the workspace is open.</span>
-      </div>
+      <button class="feature feature-action" type="button" onclick="openNotifications()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="bell" aria-hidden="true">♧</i></span>
+        <b>Reminders</b>
+        <span>Configure optional timetable reminders.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="calendar-days"></i></div>
+      <button class="feature feature-action" type="button" onclick="openCalendar()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="calendar-days" aria-hidden="true">▦</i></span>
         <b>Calendar</b>
         <span>Manage exams, holidays, classes and custom events.</span>
-      </div>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="hard-drive"></i></div>
+      <button class="feature feature-action" type="button" onclick="openBackup()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="database-backup" aria-hidden="true">▧</i></span>
         <b>Backup</b>
-        <span>Create and restore local routine snapshots.</span>
-      </div>
+        <span>Create or restore local routine snapshots.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
 
-      <div class="feature">
-        <div class="feature-icon"><i data-lucide="palette"></i></div>
+      <button class="feature feature-action" type="button" onclick="openSettings()">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="palette" aria-hidden="true">◈</i></span>
         <b>Customize</b>
         <span>Adjust themes, working days, density and display preferences.</span>
-      </div>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
+
+      <button class="feature feature-action" type="button" onclick="openModuleTool('mr-task-launch')">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="list-checks" aria-hidden="true">✓</i></span>
+        <b>Task Desk</b>
+        <span>Keep one-time and recurring tasks organised.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
+
+      <button class="feature feature-action" type="button" onclick="openModuleTool('mr-daily-launch')">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="calendar-clock" aria-hidden="true">◷</i></span>
+        <b>Daily Planner</b>
+        <span>Review and adjust a plan for a selected date.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
+
+      <button class="feature feature-action" type="button" onclick="openModuleTool('mr-smart-launch')">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="sparkles" aria-hidden="true">✦</i></span>
+        <b>Smart Review</b>
+        <span>Check schedule balance, gaps and possible overlaps.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
+
+      <button class="feature feature-action" type="button" onclick="openModuleTool('mr-command-launch')">
+        <span class="feature-icon"><i class="feature-glyph" data-lucide="layout-dashboard" aria-hidden="true">▦</i></span>
+        <b>Command Centre</b>
+        <span>See your day, priorities and recorded progress together.</span>
+        <span class="feature-open">Open <span aria-hidden="true">↗</span></span>
+      </button>
     </section>
 
   </div>
@@ -201,6 +237,13 @@
         <button class="workspace-nav-item" type="button" data-mr-nav="analytics" onclick="openAnalytics()"><i data-lucide="chart-no-axes-combined"></i><span>Analytics</span></button>
         <button class="workspace-nav-item" type="button" data-mr-nav="share" onclick="shareRoutine()"><i data-lucide="share-2"></i><span>Share</span></button>
         <button class="workspace-nav-item" type="button" data-mr-nav="print" onclick="printRoutine()"><i data-lucide="printer"></i><span>Print</span></button>
+      </div>
+      <div class="workspace-nav-group">
+        <span class="workspace-nav-label">TOOLS</span>
+        <button class="workspace-nav-item" type="button" onclick="openModuleTool('mr-task-launch')"><i class="feature-glyph" data-lucide="list-checks" aria-hidden="true">✓</i><span>Tasks</span></button>
+        <button class="workspace-nav-item" type="button" onclick="openModuleTool('mr-daily-launch')"><i class="feature-glyph" data-lucide="calendar-clock" aria-hidden="true">◷</i><span>Daily plan</span></button>
+        <button class="workspace-nav-item" type="button" onclick="openModuleTool('mr-smart-launch')"><i class="feature-glyph" data-lucide="sparkles" aria-hidden="true">✦</i><span>Smart review</span></button>
+        <button class="workspace-nav-item" type="button" onclick="openModuleTool('mr-command-launch')"><i class="feature-glyph" data-lucide="layout-dashboard" aria-hidden="true">▦</i><span>Command</span></button>
       </div>
       <div class="workspace-nav-group">
         <span class="workspace-nav-label">PREFERENCES</span>

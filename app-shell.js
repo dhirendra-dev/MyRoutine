@@ -1148,6 +1148,24 @@
   };
 
 
+  window.openModuleTool = function (id) {
+    const allowed = new Set([
+      "mr-task-launch",
+      "mr-daily-launch",
+      "mr-smart-launch",
+      "mr-command-launch",
+      "mr-analytics-launch"
+    ]);
+    if (!allowed.has(id)) return;
+    const launch = document.getElementById(id);
+    if (launch && typeof launch.click === "function") {
+      launch.click();
+      return;
+    }
+    notify("This tool is still loading. Please try again in a moment.");
+  };
+
+
   window.openOverview = function () {
     const routine = activeRoutine();
     if (!routine) return;

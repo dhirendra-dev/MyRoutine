@@ -53,10 +53,13 @@
     }
   };
 
+  let wasOffline = !navigator.onLine;
   const updateConnection = () => {
-    document.documentElement.classList.toggle("mr-offline", !navigator.onLine);
-    if (!navigator.onLine) announce("You're offline. Your saved routine data remains on this device.");
-    else if (document.documentElement.classList.contains("mr-offline")) announce("Connection restored.");
+    const offline = !navigator.onLine;
+    document.documentElement.classList.toggle("mr-offline", offline);
+    if (offline) announce("You're offline. Your saved routine data remains on this device.");
+    else if (wasOffline) announce("Connection restored.");
+    wasOffline = offline;
   };
   window.addEventListener("online", updateConnection);
   window.addEventListener("offline", updateConnection);
@@ -72,6 +75,7 @@
     Object.assign(button.style,{position:"fixed",right:"18px",bottom:"max(18px,env(safe-area-inset-bottom))",zIndex:"9998",display:"none",alignItems:"center",gap:"9px",padding:"12px 16px",border:"1px solid rgba(255,255,255,.18)",borderRadius:"999px",background:"linear-gradient(135deg,#7789f5,#5f70db)",color:"#fff",font:"700 13px system-ui,sans-serif",boxShadow:"0 12px 32px rgba(0,0,0,.3)",cursor:"pointer"});
     button.addEventListener("click",() => window.MyRoutinePWA.install());
     document.body.appendChild(button);
+    if (installPrompt) button.style.display = "inline-flex";
     window.addEventListener("myroutine:installavailable",() => {button.style.display="inline-flex";});
   };
 

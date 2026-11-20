@@ -12,6 +12,7 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Notifications and local backup / restore
 - Dark Atelier visual system with keyboard-accessible controls
 - Installable web-app shell with an offline fallback
+- Built-in focus timer with 25 / 50 / 90-minute presets and local daily session totals
 
 ## Run locally
 
@@ -35,8 +36,9 @@ Opening `index.html` directly with a `file://` URL is not a supported way to tes
 | `?` | Open the command palette when not typing |
 | `Esc` | Close the command palette or supported overlays |
 | `Ctrl + N` / `⌘ + N` | Create a routine |
+| Top-bar timer icon or command palette | Open the focus timer |
 
-The command palette can also be opened from the search icon in the top bar.
+The command palette can also be opened from the search icon in the top bar. The focus timer has its own top-bar shortcut and is also available from the command palette.
 
 ## Install as an app
 
@@ -69,7 +71,7 @@ If deploying under a subpath (for example a project site at `/MyRoutine/`), upda
 - `atelier-modules.js` — coordinated styling for independently mounted modules
 - `manifest.webmanifest`, `icons/` — install metadata and app icons
 - `sw.js`, `offline.html` — offline shell and fallback page
-- `pwa.js` — installation, connectivity and command-palette enhancements
+- `pwa.js` — installation, connectivity, command palette and focus timer
 
 ## Change safety
 

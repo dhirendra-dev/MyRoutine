@@ -36,10 +36,10 @@ let range=7;
 function render(){
 const now=new Date(),start=new Date(now);start.setHours(0,0,0,0);start.setDate(start.getDate()-range+1);
 const sessions=read(FOCUS_KEY).filter(x=>Number.isFinite(Number(x.at))&&Number.isFinite(Number(x.seconds))&&Number(x.seconds)>0);
-const tasks=read(TASK_KEY),active=tasks.filter(x=>!x.done),completed=tasks.filter(x=>x.done),history=read(HISTORY_KEY),taskEvents=history.filter(x=>x&&x.type==="task_completed"&&Number.isFinite(Number(x.at))&&Number(x.at)>=start.getTime()),taskByDay={},focusByDay={},focusBySubject={};
+const tasks=read(TASK_KEY),active=tasks.filter(x=>!x.done),completed=tasks.filter(x=>x.done),history=read(HISTORY_KEY),taskEvents=history.filter(x=>x&&x.type==="task_completed"&&Number.isFinite(Number(x.at))&&Number(x.at)>=start.getTime()&&Number(x.at)<=now.getTime()),taskByDay={},focusByDay={},focusBySubject={};
 for(let i=0;i<range;i++){const d=new Date(start);d.setDate(start.getDate()+i);focusByDay[dayKey(d)]=0;taskByDay[dayKey(d)]=0;}
 taskEvents.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(taskByDay,k))taskByDay[k]++;});
-sessions.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(focusByDay,k))focusByDay[k]+=Number(x.seconds)/60;const label=String(x.subjectName||"General focus");focusBySubject[label]=(focusBySubject[label]||0)+Number(x.seconds)/60;});
+sessions.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(focusByDay,k))focusByDay[k]+=Number(x.seconds)/60;if(Number(x.at)>=start.getTime()&&Number(x.at)<=now.getTime()){const label=String(x.subjectName||"General focus");focusBySubject[label]=(focusBySubject[label]||0)+Number(x.seconds)/60;}});
 const totalFocus=Object.values(focusByDay).reduce((a,b)=>a+b,0),daysWithFocus=Object.values(focusByDay).filter(x=>x>0).length,avg=daysWithFocus?totalFocus/daysWithFocus:0;
 const r=routine(),subjects={};let weeklyPeriods=0,weeklyMinutes=0;
 if(r){const subjectList=Array.isArray(r.subjects)?r.subjects:[],periods=Array.isArray(r.periods)?r.periods:[];

@@ -6,7 +6,7 @@
 
 MyRoutine is designed as a calm, premium productivity workspace:
 - Responsive dashboard for phone, tablet and desktop
-- Routine cards and dedicated routine workspace
+- Routine cards and dedicated routine workspace with grouped Plan / Review / Preferences navigation
 - Timetable editor, calendar and schedule viewer
 - Search, templates, analytics and print tools
 - Notifications and local backup / restore
@@ -87,6 +87,10 @@ Any static host that serves the repository root can host MyRoutine (for example 
 - `/icons/*`
 
 If deploying under a subpath (for example a project site at `/MyRoutine/`), update the manifest `start_url` / `scope`, service-worker registration scope and asset paths before deployment.
+
+## Workspace navigation
+
+The routine workspace exposes a grouped, horizontally scrollable navigation strip. Plan contains timetable, editor, calendar and templates; Review contains search, analytics, sharing and print; Preferences contains reminders, backup and settings. Existing module entry points are reused, so navigation does not fork feature state or change saved data. The strip remains reachable on small screens and supports keyboard focus.
 
 ## Project structure
 

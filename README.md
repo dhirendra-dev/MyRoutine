@@ -13,6 +13,7 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Dark Atelier visual system with keyboard-accessible controls
 - Installable web-app shell with an offline fallback
 - Built-in focus timer with 25 / 50 / 90-minute presets and local daily session totals
+- Smart Routine Engine for weekly recurring-pattern review, overlapping time detection, missing assignments and flexible gap suggestions
 
 ## Run locally
 
@@ -37,6 +38,7 @@ Opening `index.html` directly with a `file://` URL is not a supported way to tes
 | `Esc` | Close the command palette or supported overlays |
 | `Ctrl + N` / `⌘ + N` | Create a routine |
 | Top-bar timer icon or command palette | Open the focus timer |
+| Smart planner button | Review conflicts and recurring weekly coverage |
 
 The command palette can also be opened from the search icon in the top bar. The focus timer has its own top-bar shortcut and is also available from the command palette.
 

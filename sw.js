@@ -1,5 +1,5 @@
 /* MyRoutine offline worker — same-origin assets only. */
-const CACHE_VERSION = "myroutine-shell-v12";
+const CACHE_VERSION = "myroutine-shell-v13";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -35,6 +35,7 @@ const APP_SHELL = [
   "/routine-streak-engine.js",
   "/myroutine-design-system.css",
   "/privacy-notice.js",
+  "/settings-privacy.js",
   "/legal.html"
 ];
 

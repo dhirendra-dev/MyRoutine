@@ -19,6 +19,7 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Unified Command Center combining today’s timetable, deadline priorities, local task completion and focus-session summaries
 - Analytics Studio with 7/30-day focus trends, historical task completion, actual subject-tagged focus time and planned timetable distribution
 - Local activity history for completed tasks and completed focus sessions
+- Consistency & Streak Engine with active-day streaks, personal records, 7/30-day consistency and an adjustable daily focus reference goal
 - Drag-and-drop timetable assignment moves and swaps, with keyboard-accessible previous / next period controls
 
 ## Run locally
@@ -85,6 +86,7 @@ If deploying under a subpath (for example a project site at `/MyRoutine/`), upda
 - `pwa.js` — installation, connectivity, command palette and focus timer
 - `routine-smart.js` — read-only routine analysis and schedule recommendations
 - `routine-daily-planner.js` — daily plan suggestions and user-approved schedule updates
+- `routine-streak-engine.js` — local activity streaks, consistency summaries and adjustable focus goal
 
 ## Change safety
 

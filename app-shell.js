@@ -1154,7 +1154,8 @@
       "mr-daily-launch",
       "mr-smart-launch",
       "mr-command-launch",
-      "mr-analytics-launch"
+      "mr-analytics-launch",
+      "mr-streak-launch"
     ]);
     if (!allowed.has(id)) return;
     const launch = document.getElementById(id);

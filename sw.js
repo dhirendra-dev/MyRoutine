@@ -1,5 +1,5 @@
 /* MyRoutine offline worker — same-origin assets only. */
-const CACHE_VERSION = "myroutine-shell-v18";
+const CACHE_VERSION = "myroutine-shell-v19";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -18,6 +18,7 @@ const APP_SHELL = [
   "/routine-view.js",
   "/routine-share.js",
   "/routine-calendar.js",
+  "/exam-routine.js",
   "/routine-notifications.js",
   "/routine-templates.js",
   "/routine-dashboard.js",

@@ -1,0 +1,28 @@
+
+/* MyRoutine Atelier polish */
+:root{--atelier-accent:#8b9cff}
+body{background-color:#080d19}
+button,.btn,.icon-btn{min-height:40px}
+button:active,.btn:active{transform:scale(.985)}
+input,select,textarea{color-scheme:dark}
+::selection{background:rgba(139,156,255,.32);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#080d19}
+::-webkit-scrollbar-thumb{background:#2b3953;border:2px solid #080d19;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#485c83}
+@media(min-width:1400px){.home-wrap,.workspace-shell{max-width:1480px}}
+@media(max-width:520px){
+ .top-actions{gap:5px}
+ .top-actions .btn{padding:8px 10px}
+ .icon-btn{width:40px;height:40px}
+ .hero-actions .btn{flex:1 1 100%;justify-content:center}
+ .hero h2{max-width:12ch}
+ .stats-grid{gap:8px}
+ .stat-card{padding:12px}
+ .stat-card strong{font-size:22px}
+ .panel{padding:14px}
+ .welcome{padding:18px}
+ .workspace-bar{display:flex}
+ .workspace-bar .workspace-title{order:-1;flex:1 0 100%;padding:2px 5px 6px}
+}
+@media(hover:none){.routine-card:hover,.quick-action:hover{transform:none}}

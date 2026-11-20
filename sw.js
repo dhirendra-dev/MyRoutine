@@ -1,5 +1,5 @@
 /* MyRoutine offline worker — same-origin assets only. */
-const CACHE_VERSION = "myroutine-shell-v5";
+const CACHE_VERSION = "myroutine-shell-v6";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -28,7 +28,8 @@ const APP_SHELL = [
   "/atelier-polish.css",
   "/pwa.js",
   "/routine-smart.js",
-  "/routine-daily-planner.js"
+  "/routine-daily-planner.js",
+  "/routine-task-desk.js"
 ];
 
 self.addEventListener("install", event => {

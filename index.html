@@ -3,11 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="theme-color" content="#080d19">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MyRoutine">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.svg">
   <meta name="description" content="MyRoutine — a modern routine and timetable workspace.">
   <title>MyRoutine — Your Routine. Your Way.</title>
 
   <style>
+
     *{box-sizing:border-box}
     :root{
       --bg:#f5f7fb;
@@ -396,12 +404,142 @@
       .class-badge{display:none}
       .week-grid{grid-template-columns:repeat(2,1fr)}
     }
-  </style>
-  <link rel="stylesheet" href="ios27.css">
+  
+
+/* MyRoutine Atelier polish */
+:root{--atelier-accent:#8b9cff}
+body{background-color:#080d19}
+button,.btn,.icon-btn{min-height:40px}
+button:active,.btn:active{transform:scale(.985)}
+input,select,textarea{color-scheme:dark}
+::selection{background:rgba(139,156,255,.32);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#080d19}
+::-webkit-scrollbar-thumb{background:#2b3953;border:2px solid #080d19;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#485c83}
+@media(min-width:1400px){.home-wrap,.workspace-shell{max-width:1480px}}
+@media(max-width:520px){
+ .top-actions{gap:5px}
+ .top-actions .btn{padding:8px 10px}
+ .icon-btn{width:40px;height:40px}
+ .hero-actions .btn{flex:1 1 100%;justify-content:center}
+ .hero h2{max-width:12ch}
+ .stats-grid{gap:8px}
+ .stat-card{padding:12px}
+ .stat-card strong{font-size:22px}
+ .panel{padding:14px}
+ .welcome{padding:18px}
+ .workspace-bar{display:flex}
+ .workspace-bar .workspace-title{order:-1;flex:1 0 100%;padding:2px 5px 6px}
+}
+@media(hover:none){.routine-card:hover,.quick-action:hover{transform:none}}
+
+</style>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
 
+<style>
+/* MYROUTINE ATELIER — complete visual system, layered over existing modules */
+:root{
+ --bg:#080d19;--surface:rgba(18,27,46,.86);--surface-solid:#111b2e;--surface-soft:#17243b;
+ --text:#edf3ff;--muted:#9aaac4;--faint:#70819e;--border:rgba(157,180,218,.16);
+ --primary:#8b9cff;--primary-2:#6f7df2;--primary-soft:rgba(125,145,255,.14);
+ --success:#4ed6ad;--warning:#f2bd6c;--danger:#ff7788;
+ --shadow:0 24px 70px rgba(0,0,0,.28);--shadow-sm:0 8px 28px rgba(0,0,0,.2);
+ --glass:rgba(16,25,43,.76);--glass-strong:rgba(19,29,49,.94);--glass-stroke:rgba(180,199,235,.13);
+ --ios-bg:#080d19;--ios-label:#edf3ff;--ios-secondary:#9aaac4;--ios-separator:rgba(157,180,218,.14);
+ --radius:24px;
+}
+html{color-scheme:dark;scroll-behavior:smooth}
+body{
+ background:radial-gradient(ellipse at 8% -10%,rgba(90,111,215,.24),transparent 38%),
+ radial-gradient(ellipse at 92% 7%,rgba(30,164,151,.10),transparent 32%),
+ linear-gradient(180deg,#080d19 0%,#0b1221 55%,#090f1d 100%)!important;
+ color:var(--text)!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+body::before{background:radial-gradient(circle at 50% 0%,rgba(137,156,255,.06),transparent 60%)}
+.topbar,.workspace-bar{
+ background:rgba(12,19,33,.82)!important;border:1px solid var(--glass-stroke)!important;
+ box-shadow:0 12px 40px rgba(0,0,0,.24)!important;backdrop-filter:blur(24px) saturate(145%)!important;
+}
+.topbar{top:10px;width:min(1440px,calc(100% - 28px));padding:10px 14px;border-radius:20px}
+.logo{background:linear-gradient(145deg,#a5b3ff,#6577e9 65%,#4baea8)!important;box-shadow:0 10px 30px rgba(111,125,242,.25)}
+.brand h1{letter-spacing:-.04em;font-weight:760}
+.brand p,.hero p,.section-head p,.routine-meta,.feature span,.workspace-title p{color:var(--muted)!important}
+.status-pill{background:rgba(78,214,173,.12)!important;color:#7ce7c4!important;border:1px solid rgba(78,214,173,.18)!important}
+.status-dot{background:var(--success)!important}
+.btn,.icon-btn,.quick-action{
+ background:rgba(255,255,255,.045)!important;color:var(--text)!important;
+ border:1px solid var(--border)!important;box-shadow:none!important;border-radius:13px;
+}
+.btn:hover,.icon-btn:hover,.quick-action:hover{background:rgba(255,255,255,.09)!important;border-color:rgba(156,176,255,.34)!important;transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(135deg,#7789f5,#5f70db)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 10px 28px rgba(95,112,219,.26)!important}
+.btn.soft{background:rgba(133,147,255,.13)!important;color:#cbd3ff!important;border-color:rgba(133,147,255,.2)!important}
+.home-wrap,.workspace-shell{max-width:1440px;padding-top:30px}
+.hero{grid-template-columns:minmax(0,1.4fr) minmax(300px,.6fr);gap:18px}
+.hero-card,.hero-side,.panel,.feature,.routine-card,.stat-card,.workspace-bar{
+ background:var(--glass)!important;border:1px solid var(--glass-stroke)!important;
+ box-shadow:var(--shadow-sm)!important;backdrop-filter:blur(22px) saturate(135%);
+}
+.hero-card{min-height:360px;padding:clamp(25px,4vw,48px);border-radius:28px;display:flex;flex-direction:column;justify-content:center}
+.hero-card:after{width:360px;height:360px;right:-120px;top:-170px;background:radial-gradient(circle,rgba(126,144,255,.22),rgba(74,174,168,.04) 65%,transparent 72%)}
+.eyebrow{background:rgba(126,144,255,.13)!important;color:#bdc7ff!important;letter-spacing:.12em;border:1px solid rgba(126,144,255,.15)}
+.hero h2{font-size:clamp(38px,5.6vw,72px);font-weight:780;line-height:.98;letter-spacing:-.07em;max-width:780px}
+.hero h2 span{background:linear-gradient(90deg,#b6c1ff,#83d9ce);background-clip:text;color:transparent}
+.hero p{font-size:15px;max-width:610px}
+.hero-side{border-radius:28px;padding:26px;background:radial-gradient(circle at 100% 0%,rgba(118,137,245,.22),transparent 45%),linear-gradient(145deg,#172541,#101a2d)!important}
+.hero-side .mini-label,.hero-side p{color:#aebbd5!important}
+.hero-side h3{font-size:clamp(22px,2.3vw,30px);letter-spacing:-.04em}
+.hero-side-item{background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.09)!important}
+.section-head{margin-top:34px}
+.section-head h3{font-size:21px;letter-spacing:-.04em}
+.routine-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.routine-card{border-radius:20px;padding:20px;transition:transform .2s,border-color .2s}
+.routine-card:hover{transform:translateY(-4px);border-color:rgba(145,163,255,.32)!important}
+.routine-icon{background:linear-gradient(145deg,rgba(130,148,255,.19),rgba(73,180,166,.12))!important;color:#c3ceff!important}
+.feature{border-radius:18px;padding:19px}
+.feature-icon{background:rgba(255,255,255,.06)!important;color:#bac7ff;font-size:17px}
+#workspace{background:transparent}
+.workspace-shell{padding-bottom:80px}
+.workspace-bar{position:sticky;top:82px;z-index:45;border-radius:18px;padding:10px;margin-bottom:18px}
+.workspace-panel{min-height:75vh}
+.panel{border-radius:20px;background:rgba(17,27,46,.78)!important}
+.panel-title{border-bottom:1px solid var(--border);padding-bottom:12px}
+.welcome{background:radial-gradient(circle at 100% 0%,rgba(123,145,255,.25),transparent 45%),linear-gradient(135deg,#192744,#111a2d)!important;border:1px solid var(--glass-stroke)}
+.stat-card{background:rgba(20,31,52,.82)!important}
+.stat-card span,.stat-card em,.class-sub,.day-count,.panel-title span{color:var(--muted)!important}
+.next-class{background:rgba(126,144,255,.11)!important;border:1px solid rgba(126,144,255,.2)!important;color:var(--text)}
+.next-class .label,.next-class p{color:#c4cdff!important}
+.class-row,.day-card{background:rgba(255,255,255,.045)!important;border:1px solid var(--border)}
+.day-card.active{background:rgba(126,144,255,.13)!important;border-color:rgba(126,144,255,.25)!important}
+.day-bar{background:rgba(255,255,255,.09)!important}.day-bar i{background:linear-gradient(90deg,#8293ff,#62c9b9)!important}
+.quick-action{background:rgba(255,255,255,.035)!important}
+.modal-backdrop{background:rgba(2,7,16,.72)!important;backdrop-filter:blur(14px)}
+.modal{background:rgba(16,25,43,.97)!important;border:1px solid var(--glass-stroke)!important;color:var(--text)}
+.modal-head,.modal-footer{border-color:var(--border)!important}
+.field label{color:var(--muted)!important}
+.field input,.field select{background:#0d1728!important;color:var(--text)!important;border:1px solid var(--border)!important}
+.field input::placeholder{color:#70819e}
+.toast{background:#e9efff!important;color:#15213a!important}
+.empty{background:rgba(255,255,255,.025)!important;border-color:var(--border)!important;color:var(--muted)!important}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(137,156,255,.38)!important;outline-offset:2px}
+@media(max-width:1050px){.hero{grid-template-columns:1fr}.hero-card{min-height:300px}.routine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ .topbar{width:calc(100% - 16px);top:7px;padding:8px 10px;border-radius:16px}
+ .home-wrap,.workspace-shell{padding-left:12px;padding-right:12px;padding-top:22px}
+ .hero-card{padding:24px;min-height:310px;border-radius:22px}
+ .hero h2{font-size:clamp(37px,11vw,52px)}
+ .hero-side{border-radius:22px}
+ .routine-grid,.features{grid-template-columns:1fr}
+ .workspace-bar{top:66px;gap:6px;padding:8px}
+ .workspace-title{min-width:120px}
+ .workspace-bar .btn.small{font-size:11px;padding:8px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
 <div class="app" id="homeApp">
 
   <header class="topbar">
@@ -418,8 +556,8 @@
         <i class="status-dot"></i>
         Local workspace
       </span>
-      <button class="icon-btn" type="button" onclick="openSettings()" aria-label="Settings">⚙️</button>
-      <button class="btn primary small" type="button" onclick="openCreateModal()">＋ New</button>
+      <button class="icon-btn" type="button" onclick="openSettings()" aria-label="Settings"><i data-lucide="settings"></i></button>
+      <button class="btn primary small" type="button" onclick="openCreateModal()"><i data-lucide="plus"></i> New</button>
     </div>
   </header>
 
@@ -480,7 +618,7 @@
       </div>
 
       <button class="btn small" type="button" onclick="refreshHome()">
-        ↻ Refresh
+        <i data-lucide="refresh-cw"></i> Refresh
       </button>
     </div>
 
@@ -495,49 +633,49 @@
 
     <section class="features">
       <div class="feature">
-        <div class="feature-icon">📝</div>
+        <div class="feature-icon"><i data-lucide="notebook-pen"></i></div>
         <b>Routine Editor</b>
         <span>Manage periods, subjects, teachers, rooms and weekly schedules.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">📊</div>
+        <div class="feature-icon"><i data-lucide="chart-no-axes-combined"></i></div>
         <b>Analytics</b>
         <span>Understand your weekly schedule and subject distribution.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">🔗</div>
+        <div class="feature-icon"><i data-lucide="link-2"></i></div>
         <b>Share</b>
         <span>Share routines through supported codes, links or exported files.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">🖨️</div>
+        <div class="feature-icon"><i data-lucide="printer"></i></div>
         <b>Print</b>
         <span>Generate clean timetable views for printing or saving.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">🔔</div>
+        <div class="feature-icon"><i data-lucide="bell"></i></div>
         <b>Notifications</b>
         <span>Optional reminders while the workspace is open.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">🗓️</div>
+        <div class="feature-icon"><i data-lucide="calendar-days"></i></div>
         <b>Calendar</b>
         <span>Manage exams, holidays, classes and custom events.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">💾</div>
+        <div class="feature-icon"><i data-lucide="hard-drive"></i></div>
         <b>Backup</b>
         <span>Create and restore local routine snapshots.</span>
       </div>
 
       <div class="feature">
-        <div class="feature-icon">🎨</div>
+        <div class="feature-icon"><i data-lucide="palette"></i></div>
         <b>Customize</b>
         <span>Adjust themes, working days, density and display preferences.</span>
       </div>
@@ -560,10 +698,10 @@
         <p id="workspaceMeta">Routine workspace</p>
       </div>
 
-      <button class="btn small" type="button" onclick="openViewer()">👁 View</button>
-      <button class="btn small" type="button" onclick="openEditor()">✏️ Edit</button>
-      <button class="btn small" type="button" onclick="openCalendar()">📅</button>
-      <button class="btn small" type="button" onclick="openSettings()">⚙️</button>
+      <button class="btn small" type="button" onclick="openViewer()"><i data-lucide="eye"></i> View</button>
+      <button class="btn small" type="button" onclick="openEditor()"><i data-lucide="pencil"></i> Edit</button>
+      <button class="btn small" type="button" onclick="openCalendar()"><i data-lucide="calendar-days"></i></button>
+      <button class="btn small" type="button" onclick="openSettings()"><i data-lucide="settings"></i></button>
     </div>
 
     <div id="workspacePanel" class="workspace-panel"></div>
@@ -667,6 +805,13 @@
 <script src="routine-analytics.js"></script>
 <script src="routine-backup.js"></script>
 <script src="routine-print.js"></script>
+<script src="atelier-modules.js"></script>
+<script src="pwa.js"></script>
+<script src="routine-smart.js"></script>
+<script src="routine-daily-planner.js"></script>
+<script src="routine-task-desk.js"></script>
+<script src="routine-command-center.js"></script>
+<script src="routine-analytics-studio.js"></script>
 
 
 <script>
@@ -882,11 +1027,11 @@
 
       list.innerHTML =
         '<div class="empty">' +
-          '<div class="empty-icon">🗓️</div>' +
+          '<div class="empty-icon"><i data-lucide="calendar-days"></i></div>' +
           '<strong>No routines yet.</strong><br>' +
           '<span>Create your first routine or import a JSON timetable.</span>' +
           '<div style="margin-top:16px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap">' +
-            '<button class="btn primary" onclick="openCreateModal()">＋ Create Routine</button>' +
+            '<button class="btn primary" onclick="openCreateModal()"><i data-lucide="plus"></i> Create Routine</button>' +
             '<button class="btn" onclick="importRoutine()">Import JSON</button>' +
           '</div>' +
         '</div>';
@@ -1476,10 +1621,10 @@
 
             '<div class="dashboard-actions">' +
 
-              '<button class="btn" onclick="openEditor()">✏️ Edit</button>' +
-              '<button class="btn" onclick="openViewer()">👁 Timetable</button>' +
-              '<button class="btn" onclick="openCalendar()">📅 Calendar</button>' +
-              '<button class="btn" onclick="openAnalytics()">📊 Analytics</button>' +
+              '<button class="btn" onclick="openEditor()"><i data-lucide="pencil"></i> Edit</button>' +
+              '<button class="btn" onclick="openViewer()"><i data-lucide="eye"></i> Timetable</button>' +
+              '<button class="btn" onclick="openCalendar()"><i data-lucide="calendar-days"></i> Calendar</button>' +
+              '<button class="btn" onclick="openAnalytics()"><i data-lucide="chart-no-axes-combined"></i> Analytics</button>' +
 
             '</div>' +
 
@@ -1605,12 +1750,12 @@
             '<div class="quick-actions">' +
 
               '<button class="quick-action" onclick="openEditor()">' +
-                '<b>✏️ Edit routine</b>' +
+                '<b><i data-lucide="pencil"></i> Edit routine</b>' +
                 '<span>Change subjects & periods</span>' +
               '</button>' +
 
               '<button class="quick-action" onclick="openViewer()">' +
-                '<b>👁 View timetable</b>' +
+                '<b><i data-lucide="eye"></i> View timetable</b>' +
                 '<span>Open the full timetable</span>' +
               '</button>' +
 
@@ -1625,12 +1770,12 @@
               '</button>' +
 
               '<button class="quick-action" onclick="shareRoutine()">' +
-                '<b>🔗 Share</b>' +
+                '<b><i data-lucide="link-2"></i> Share</b>' +
                 '<span>Share your routine</span>' +
               '</button>' +
 
               '<button class="quick-action" onclick="openBackup()">' +
-                '<b>💾 Backup</b>' +
+                '<b><i data-lucide="hard-drive"></i> Backup</b>' +
                 '<span>Protect your workspace</span>' +
               '</button>' +
 
@@ -1649,22 +1794,22 @@
             '<div class="quick-actions">' +
 
               '<button class="quick-action" onclick="openNotifications()">' +
-                '<b>🔔 Notifications</b>' +
+                '<b><i data-lucide="bell"></i> Notifications</b>' +
                 '<span>Reminder controls</span>' +
               '</button>' +
 
               '<button class="quick-action" onclick="printRoutine()">' +
-                '<b>🖨️ Print</b>' +
+                '<b><i data-lucide="printer"></i> Print</b>' +
                 '<span>Printable timetable</span>' +
               '</button>' +
 
               '<button class="quick-action" onclick="openAnalytics()">' +
-                '<b>📊 Analytics</b>' +
+                '<b><i data-lucide="chart-no-axes-combined"></i> Analytics</b>' +
                 '<span>Schedule insights</span>' +
               '</button>' +
 
               '<button class="quick-action" onclick="openSettings()">' +
-                '<b>⚙️ Settings</b>' +
+                '<b><i data-lucide="settings"></i> Settings</b>' +
                 '<span>Customize workspace</span>' +
               '</button>' +
 
@@ -2221,5 +2366,3 @@
 })();
 </script>
 
-</body>
-</html>

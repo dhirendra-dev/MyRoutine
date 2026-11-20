@@ -290,12 +290,22 @@
 
       .mr-assignment {
         display: grid;
-        grid-template-columns: 160px 1fr auto;
+        grid-template-columns: 160px minmax(0,1fr) auto auto;
         gap: 10px;
         align-items: center;
         padding: 12px 15px;
         border-top: 1px solid #eef0f3;
       }
+
+      .mr-assignment[draggable="true"] {
+        cursor: grab;
+        transition: background .16s ease, border-color .16s ease, opacity .16s ease;
+      }
+
+      .mr-assignment.mr-slot-dragging { opacity: .42; }
+      .mr-assignment.mr-slot-drop-target { background: rgba(99,102,241,.10); outline: 2px dashed #818cf8; outline-offset: -3px; }
+      .mr-slot-move { display: inline-flex; gap: 4px; }
+      .mr-slot-move .mr-btn { min-width: 32px; padding: 7px 9px; }
 
       .mr-assignment-time {
         font-size: .85rem;
@@ -1635,7 +1645,7 @@
 
               return `
 
-                <div class="mr-assignment">
+                <div class="mr-assignment" draggable="true" data-slot-day="${esc(day)}" data-slot-period="${esc(period.id)}" title="Drag this assignment to another slot to move or swap it">
 
                   <div
                     class="mr-assignment-time">
@@ -1731,6 +1741,11 @@
                     Clear
                   </button>
 
+                  <span class="mr-slot-move" aria-label="Move assignment">
+                    <button class="mr-btn" type="button" data-slot-move="prev" data-day="${esc(day)}" data-period="${esc(period.id)}" aria-label="Move to previous period" title="Move to previous period">↑</button>
+                    <button class="mr-btn" type="button" data-slot-move="next" data-day="${esc(day)}" data-period="${esc(period.id)}" aria-label="Move to next period" title="Move to next period">↓</button>
+                  </span>
+
                 </div>
 
               `;
@@ -1741,6 +1756,85 @@
       </div>
     `;
   }
+
+  function moveAssignment(routine, day, periodId, direction) {
+    const periods = Array.isArray(routine.periods) ? routine.periods : [];
+    const index = periods.findIndex(period => String(period.id) === String(periodId));
+    const source = periods[index];
+    const target = periods[index + (direction === "prev" ? -1 : 1)];
+    if (!source || !target || String(target.type || "").toLowerCase() === "break") return;
+    const entries = routine.schedule && routine.schedule[day] || [];
+    const sourceSubject = (entries.find(entry => String(entry.periodId) === String(source.id)) || {}).subjectId || "";
+    const targetSubject = (entries.find(entry => String(entry.periodId) === String(target.id)) || {}).subjectId || "";
+    if (!sourceSubject) return;
+    window.MyRoutine.setClass(routine, day, source.id, targetSubject);
+    window.MyRoutine.setClass(routine, day, target.id, sourceSubject);
+    renderSchedule();
+  }
+
+  function transferAssignment(routine, fromDay, fromPeriodId, toDay, toPeriodId) {
+    if (fromDay === toDay && String(fromPeriodId) === String(toPeriodId)) return;
+    const targetPeriod = (routine.periods || []).find(period => String(period.id) === String(toPeriodId));
+    if (!targetPeriod || String(targetPeriod.type || "").toLowerCase() === "break") return;
+    const fromEntries = routine.schedule && routine.schedule[fromDay] || [];
+    const toEntries = routine.schedule && routine.schedule[toDay] || [];
+    const sourceSubject = (fromEntries.find(entry => String(entry.periodId) === String(fromPeriodId)) || {}).subjectId || "";
+    const targetSubject = (toEntries.find(entry => String(entry.periodId) === String(toPeriodId)) || {}).subjectId || "";
+    if (!sourceSubject) return;
+    window.MyRoutine.setClass(routine, fromDay, fromPeriodId, targetSubject);
+    window.MyRoutine.setClass(routine, toDay, toPeriodId, sourceSubject);
+    renderSchedule();
+  }
+
+  document.addEventListener("click", event => {
+    const move = event.target.closest("[data-slot-move]");
+    if (!move) return;
+    const routine = getRoutine();
+    if (routine) moveAssignment(routine, move.dataset.day, move.dataset.period, move.dataset.slotMove);
+  });
+
+  document.addEventListener("dragstart", event => {
+    const slot = event.target.closest(".mr-assignment[data-slot-period]");
+    if (!slot) return;
+    const routine = getRoutine();
+    const day = slot.dataset.slotDay, periodId = slot.dataset.slotPeriod;
+    const assignment = routine && routine.schedule && routine.schedule[day] && routine.schedule[day].find(entry => String(entry.periodId) === String(periodId));
+    if (!assignment || !assignment.subjectId) { event.preventDefault(); return; }
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", JSON.stringify({day:day,periodId:periodId}));
+    slot.classList.add("mr-slot-dragging");
+  });
+
+  document.addEventListener("dragend", event => {
+    const slot = event.target.closest(".mr-assignment");
+    if (slot) slot.classList.remove("mr-slot-dragging");
+    document.querySelectorAll(".mr-slot-drop-target").forEach(node => node.classList.remove("mr-slot-drop-target"));
+  });
+
+  document.addEventListener("dragover", event => {
+    const slot = event.target.closest(".mr-assignment[data-slot-period]");
+    if (!slot) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    slot.classList.add("mr-slot-drop-target");
+  });
+
+  document.addEventListener("dragleave", event => {
+    const slot = event.target.closest(".mr-assignment");
+    if (slot && !slot.contains(event.relatedTarget)) slot.classList.remove("mr-slot-drop-target");
+  });
+
+  document.addEventListener("drop", event => {
+    const slot = event.target.closest(".mr-assignment[data-slot-period]");
+    if (!slot) return;
+    event.preventDefault();
+    slot.classList.remove("mr-slot-drop-target");
+    let source;
+    try { source = JSON.parse(event.dataTransfer.getData("text/plain")); } catch (_) { return; }
+    if (!source || !source.day || !source.periodId) return;
+    const routine = getRoutine();
+    if (routine) transferAssignment(routine, source.day, source.periodId, slot.dataset.slotDay, slot.dataset.slotPeriod);
+  });
 
   document.addEventListener(
     "click",

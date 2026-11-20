@@ -103,7 +103,7 @@
     const render=()=>{
       filtered=actions.filter(item=>(item[0]+" "+item[1]).toLowerCase().includes(input.value.toLowerCase()));
       selected=Math.min(selected,Math.max(0,filtered.length-1));
-      list.innerHTML=filtered.map((item,i)=>'<button type="button" class="mr-cmd-item" role="option" aria-selected="'+(i===selected)+'" data-action="'+item[3]+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v18M3 12h18"/></svg><span>'+item[0]+'<small>'+item[1]+'</small></span></button>').join("")||'<div style="padding:22px;color:#9aaac4;text-align:center;font:13px system-ui">No matching commands</div>';
+      list.innerHTML=filtered.map((item,i)=>'<button type="button" class="mr-cmd-item" role="option" aria-selected="'+(i===selected)+'" data-action="'+item[3]+'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">'+iconPaths[item[2]]+'</svg><span>'+item[0]+'<small>'+item[1]+'</small></span></button>').join("")||'<div style="padding:22px;color:#9aaac4;text-align:center;font:13px system-ui">No matching commands</div>';
     };
     const close=()=>{overlay.hidden=true;};
     const run=()=>{const item=filtered[selected];if(!item)return;close();const fn=window[item[3]];if(typeof fn==="function")fn();};
@@ -124,7 +124,18 @@
     render();
   };
 
-  const initEnhancements = () => { addInstallControl(); addCommandPalette(); };
+  const addCommandTrigger = () => {
+    const actions=document.querySelector(".top-actions");
+    if(!actions||document.getElementById("mr-command-trigger"))return;
+    const button=document.createElement("button");
+    button.id="mr-command-trigger";button.type="button";button.className="icon-btn";
+    button.title="Open command palette (Ctrl or Command + K)";
+    button.setAttribute("aria-label","Open command palette");
+    button.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
+    button.addEventListener("click",()=>window.MyRoutineCommands?.open());
+    actions.prepend(button);
+  };
+  const initEnhancements = () => { addInstallControl(); addCommandPalette(); addCommandTrigger(); };
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initEnhancements,{once:true});
   else initEnhancements();
 

@@ -44,7 +44,8 @@
     }
     function close(){overlay.hidden=true;launch.focus();}
     launch.addEventListener("click",()=>{render();overlay.hidden=false;$(".mr-streak-close",overlay).focus();});
-    overlay.addEventListener("click",e=>{if(e.target===overlay||e.target.closest(".mr-streak-close")){close();return;}if(e.target&&e.target.id==="mr-streak-goal"){const n=Number(e.target.value);if(Number.isFinite(n)&&n>=15&&n<=480)localStorage.setItem(GOAL_KEY,String(n));render();}});
+    overlay.addEventListener("click",e=>{if(e.target===overlay||e.target.closest(".mr-streak-close"))close();});
+    overlay.addEventListener("change",e=>{if(e.target&&e.target.id==="mr-streak-goal"){const n=Number(e.target.value);if(Number.isFinite(n)&&n>=15&&n<=480)localStorage.setItem(GOAL_KEY,String(n));render();}});
     window.addEventListener("keydown",e=>{if(!overlay.hidden&&e.key==="Escape")close();});
     ["myroutine:ready","myroutine:changed","myroutine:updated","myroutine:saved"].forEach(n=>document.addEventListener(n,()=>{if(!overlay.hidden)render();}));
   }

@@ -17,7 +17,8 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Intelligent Daily Planner with date selection, weekly-load balancing suggestions, editable subject choices and explicit approval before saving
 - Task Desk for one-time deadlines and daily / weekly recurring tasks, with overdue and due-today views; task data stays in this browser
 - Unified Command Center combining today’s timetable, deadline priorities, local task completion and focus-session summaries
-- Analytics Studio with 7/30-day completed focus-session trends, weekly subject timetable distribution and current task snapshots
+- Analytics Studio with 7/30-day focus trends, historical task completion, actual subject-tagged focus time and planned timetable distribution
+- Local activity history for completed tasks and completed focus sessions
 - Drag-and-drop timetable assignment moves and swaps, with keyboard-accessible previous / next period controls
 
 ## Run locally

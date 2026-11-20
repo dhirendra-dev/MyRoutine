@@ -246,7 +246,17 @@
     button.addEventListener("click",()=>window.MyRoutineCommands?.open());
     actions.prepend(button);
   };
-  const initEnhancements = () => { addInstallControl(); addCommandPalette(); addFocusTimer(); addCommandTrigger(); };
+  const addFocusTrigger = () => {
+    const actions=document.querySelector(".top-actions");
+    if(!actions||document.getElementById("mr-focus-trigger"))return;
+    const button=document.createElement("button");
+    button.id="mr-focus-trigger";button.type="button";button.className="icon-btn";
+    button.title="Open focus timer";button.setAttribute("aria-label","Open focus timer");
+    button.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6M12 5V2"/></svg>';
+    button.addEventListener("click",()=>window.MyRoutineFocusTimer?.open());
+    actions.prepend(button);
+  };
+  const initEnhancements = () => { addInstallControl(); addCommandPalette(); addFocusTimer(); addCommandTrigger(); addFocusTrigger(); };
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initEnhancements,{once:true});
   else initEnhancements();
 

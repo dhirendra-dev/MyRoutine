@@ -290,12 +290,22 @@
 
       .mr-assignment {
         display: grid;
-        grid-template-columns: 160px 1fr auto;
+        grid-template-columns: 160px minmax(0,1fr) auto auto;
         gap: 10px;
         align-items: center;
         padding: 12px 15px;
         border-top: 1px solid #eef0f3;
       }
+
+      .mr-assignment[draggable="true"] {
+        cursor: grab;
+        transition: background .16s ease, border-color .16s ease, opacity .16s ease;
+      }
+
+      .mr-assignment.mr-slot-dragging { opacity: .42; }
+      .mr-assignment.mr-slot-drop-target { background: rgba(99,102,241,.10); outline: 2px dashed #818cf8; outline-offset: -3px; }
+      .mr-slot-move { display: inline-flex; gap: 4px; }
+      .mr-slot-move .mr-btn { min-width: 32px; padding: 7px 9px; }
 
       .mr-assignment-time {
         font-size: .85rem;

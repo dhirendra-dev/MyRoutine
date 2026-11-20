@@ -24,7 +24,9 @@ const APP_SHELL = [
   "/routine-analytics.js",
   "/routine-backup.js",
   "/routine-print.js",
-  "/atelier-modules.js"
+  "/atelier-modules.js",
+  "/atelier-polish.css",
+  "/pwa.js"
 ];
 
 self.addEventListener("install", event => {

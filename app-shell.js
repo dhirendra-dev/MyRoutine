@@ -1005,29 +1005,7 @@
       '</div>';
 
 
-    /*
-     * If the dedicated dashboard module exists,
-     * let it enhance the workspace after our
-     * stable fallback dashboard has rendered.
-     */
-    if (
-      window.MyRoutineDashboard &&
-      typeof window.MyRoutineDashboard.mount ===
-      "function"
-    ) {
-
-      try {
-        window.MyRoutineDashboard.mount(
-          "workspacePanel",
-          routine.id
-        );
-      } catch (error) {
-        console.warn(
-          "Dashboard module:",
-          error
-        );
-      }
-    }
+    /* The workspace shell owns this dashboard surface. */
   }
 
 
@@ -1167,6 +1145,15 @@
       [r.id],
       "Editor module is unavailable."
     );
+  };
+
+
+  window.openOverview = function () {
+    const routine = activeRoutine();
+    if (!routine) return;
+    renderDashboard(routine);
+    const panel = document.getElementById("workspacePanel");
+    if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
 

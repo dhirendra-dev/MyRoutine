@@ -186,6 +186,29 @@
       <button class="btn small" type="button" onclick="openSettings()"><i data-lucide="settings"></i></button>
     </div>
 
+    <nav class="workspace-nav" aria-label="Routine tools">
+      <div class="workspace-nav-group">
+        <span class="workspace-nav-label">PLAN</span>
+        <button class="workspace-nav-item" type="button" data-mr-nav="viewer" onclick="openViewer()"><i data-lucide="calendar-check"></i><span>Timetable</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="editor" onclick="openEditor()"><i data-lucide="pencil-ruler"></i><span>Editor</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="calendar" onclick="openCalendar()"><i data-lucide="calendar-days"></i><span>Calendar</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="templates" onclick="openTemplates()"><i data-lucide="layout-template"></i><span>Templates</span></button>
+      </div>
+      <div class="workspace-nav-group">
+        <span class="workspace-nav-label">REVIEW</span>
+        <button class="workspace-nav-item" type="button" data-mr-nav="search" onclick="openSearch()"><i data-lucide="search"></i><span>Search</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="analytics" onclick="openAnalytics()"><i data-lucide="chart-no-axes-combined"></i><span>Analytics</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="share" onclick="shareRoutine()"><i data-lucide="share-2"></i><span>Share</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="print" onclick="printRoutine()"><i data-lucide="printer"></i><span>Print</span></button>
+      </div>
+      <div class="workspace-nav-group">
+        <span class="workspace-nav-label">PREFERENCES</span>
+        <button class="workspace-nav-item" type="button" data-mr-nav="notifications" onclick="openNotifications()"><i data-lucide="bell"></i><span>Reminders</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="backup" onclick="openBackup()"><i data-lucide="database-backup"></i><span>Backup</span></button>
+        <button class="workspace-nav-item" type="button" data-mr-nav="settings" onclick="openSettings()"><i data-lucide="settings-2"></i><span>Settings</span></button>
+      </div>
+    </nav>
+
     <div id="workspacePanel" class="workspace-panel"></div>
 
   </div>

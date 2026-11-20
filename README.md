@@ -62,6 +62,10 @@ The service worker caches the app shell and same-origin JavaScript assets. Previ
 
 To force a fresh shell after a deployment, publish the updated `sw.js` and reload the app. The worker removes older MyRoutine shell caches when the new worker activates.
 
+## In-app privacy notice
+
+A non-blocking first-visit disclosure explains the browser-local data model and links to the full legal centre. Dismissing it records only a local acknowledgement in the current browser; it is not represented as legal consent. The notice does not request permissions or transmit preference data.
+
 ## Legal and privacy
 
 The `/legal.html` page contains the published privacy policy, terms of use, data and storage disclosures, cookies/local storage explanation, security notes, sharing, retention/deletion, children's privacy, intellectual property, disclaimers, liability and contact guidance. The policy describes the current browser-local storage model and explicitly avoids promising cloud sync or account services that are not implemented. The legal page is a project-level template and should be reviewed by a qualified legal professional before commercial use; configure a verified privacy contact before launch.

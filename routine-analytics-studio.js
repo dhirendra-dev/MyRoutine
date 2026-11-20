@@ -66,7 +66,7 @@ const subjectRows=Object.entries(focusBySubject).sort((x,y)=>y[1]-x[1]),maxSubje
 if(!subjectRows.length)html+='<div class="mr-analytics-empty">Choose a subject in the Focus Timer. Future completed sessions will be attributed here. Older sessions remain included as General focus.</div>';
 else html+='<div class="mr-analytics-bars">'+subjectRows.map(x=>'<div class="mr-analytics-barrow"><span class="mr-analytics-barlabel">'+esc(x[0])+'</span><div class="mr-analytics-track"><div class="mr-analytics-fill" style="width:'+(x[1]/maxSubjectFocus*100)+'%"></div></div><span class="mr-analytics-value">'+fmt(x[1])+'</span></div>').join("")+'</div>';
 html+='</section><section class="mr-analytics-panel"><h3>Current task snapshot</h3><p class="mr-analytics-muted">Active: '+active.length+'<br>Completed one-time tasks: '+completed.length+'<br>Overdue: '+overdue+'<br>Completion rate: '+taskRate+'%</p></section></div>';
-<div class="mr-analytics-note">Historical task counts begin when this update is installed; earlier completions cannot be reconstructed. Focus by subject is recorded for new sessions when you select a subject. Subject timetable bars represent planned time, not actual study time.</div>';
+html+='<div class="mr-analytics-note">Historical task counts begin when this update is installed; earlier completions cannot be reconstructed. Focus by subject is recorded for new sessions when you select a subject. Subject timetable bars represent planned time, not actual study time.</div>';
 $("#mr-analytics-content",overlay).innerHTML=html;
 }
 function close(){overlay.hidden=true;launch.focus();}

@@ -114,7 +114,12 @@
     </div>
 
     <section class="features" aria-label="Workspace tools">
-      <button class="feature feature-action" type="button" onclick="openModuleTool('mr-streak-launch')">
+<button class="feature feature-action" type="button" onclick="openExamRoutine()">
+<span class="feature-icon"><i data-lucide="clipboard-list" aria-hidden="true">▤</i></span><b>Exam Routine</b>
+<span>Plan exam dates, times, venues and syllabus notes in one timetable.</span><span class="feature-open">Open <span aria-hidden="true">↗</span></span></button>
+
+            <button class="workspace-nav-item" type="button" onclick="openExamRoutine()"><i data-lucide="clipboard-list" aria-hidden="true">▤</i><span>Exam routine</span></button>
+        <button class="feature feature-action" type="button" onclick="openModuleTool('mr-streak-launch')">
         <span class="feature-icon"><i class="feature-glyph" data-lucide="activity" aria-hidden="true">◉</i></span>
         <b>Consistency</b>
         <span>Review recent activity and your own focus goal at a comfortable pace.</span>
@@ -354,6 +359,7 @@
 <script src="routine-view.js"></script>
 <script src="routine-share.js"></script>
 <script src="routine-calendar.js"></script>
+<script src="exam-routine.js"></script>
 <script src="routine-notifications.js"></script>
 <script src="routine-templates.js"></script>
 <script src="routine-dashboard.js"></script>

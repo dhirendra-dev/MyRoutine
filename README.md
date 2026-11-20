@@ -14,6 +14,7 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Installable web-app shell with an offline fallback
 - Built-in focus timer with 25 / 50 / 90-minute presets and local daily session totals
 - Smart Routine Engine for weekly recurring-pattern review, overlapping time detection, missing assignments and flexible gap suggestions
+- Intelligent Daily Planner with date selection, weekly-load balancing suggestions, editable subject choices and explicit approval before saving
 - Drag-and-drop timetable assignment moves and swaps, with keyboard-accessible previous / next period controls
 
 ## Run locally
@@ -40,6 +41,7 @@ Opening `index.html` directly with a `file://` URL is not a supported way to tes
 | `Ctrl + N` / `⌘ + N` | Create a routine |
 | Top-bar timer icon or command palette | Open the focus timer |
 | Smart planner button | Review conflicts and recurring weekly coverage |
+| Daily plan button | Preview a balanced day and approve suggested subject assignments |
 | Drag an assigned timetable slot | Move or swap an assignment to another day / period |
 | Up / down controls beside a slot | Move its assignment to the previous / next period without dragging |
 
@@ -78,6 +80,7 @@ If deploying under a subpath (for example a project site at `/MyRoutine/`), upda
 - `sw.js`, `offline.html` — offline shell and fallback page
 - `pwa.js` — installation, connectivity, command palette and focus timer
 - `routine-smart.js` — read-only routine analysis and schedule recommendations
+- `routine-daily-planner.js` — daily plan suggestions and user-approved schedule updates
 
 ## Change safety
 

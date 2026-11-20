@@ -1,5 +1,5 @@
 /* MyRoutine offline worker — same-origin assets only. */
-const CACHE_VERSION = "myroutine-shell-v15";
+const CACHE_VERSION = "myroutine-shell-v16";
 const APP_SHELL = [
   "/",
   "/index.html",

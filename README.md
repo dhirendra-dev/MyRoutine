@@ -136,3 +136,10 @@ The Atelier redesign is maintained on `redesign/atelier-productivity` until it h
 - Consolidated the floating module launchers out of the viewport to prevent overlap with page content; the tools remain accessible through the cards and navigation.
 - Added text-glyph fallbacks inside icon placeholders so controls remain identifiable when the external icon library is unavailable.
 - Mobile feature cards use a compact two-column layout, with a single-column fallback on very narrow screens.
+
+
+### Offline-safe icon rendering
+
+- Added local CSS glyph fallbacks for common Lucide icon names. Empty icon nodes now remain identifiable when the external Lucide CDN is blocked, slow, or unavailable.
+- SVG icons remain preferred when Lucide successfully loads; the fallback only appears for empty icon nodes.
+- Bumped the service-worker cache to v18.

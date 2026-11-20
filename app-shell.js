@@ -1419,6 +1419,17 @@
   };
 
 
+  /* Keep the workspace navigation's current tool discoverable. */
+  document.addEventListener("click", function (event) {
+    const item = event.target && event.target.closest
+      ? event.target.closest("[data-mr-nav]")
+      : null;
+    if (!item) return;
+    document.querySelectorAll(".workspace-nav-item[aria-current='page']")
+      .forEach(function (node) { node.removeAttribute("aria-current"); });
+    item.setAttribute("aria-current", "page");
+  });
+
   /* =====================================================
      EVENTS / INITIALIZATION
      ===================================================== */

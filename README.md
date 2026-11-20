@@ -150,3 +150,10 @@ The Atelier redesign is maintained on `redesign/atelier-productivity` until it h
 - Dedicated Exam Routine tool uses the active routine's existing calendar events (`type: exam`).
 - Create, edit, delete and filter upcoming, past and all exams; store exam date, subject/title, start/end time, venue and syllabus notes.
 - Includes mobile-first layout and confirmation before deletion. Existing calendar and backup/export paths continue to own exam data.
+
+
+### Built-in exam timetable demo
+
+- Exam Routine includes a read-only demonstration of the District Level Internal Examination Committee, DLEIC, Div-II Cachar HS First Year Half-Yearly Examination 2026 programme.
+- The demo lists the eight dates from 23 November to 3 December 2026, with morning (9:00 AM–11:00 AM) and afternoon (1:00 PM–3:00 PM) sessions as printed.
+- Demo entries are not written into a user's routine calendar. Personal exams remain separate and editable.

@@ -127,3 +127,12 @@ The Atelier redesign is maintained on `redesign/atelier-productivity` until it h
 - Added an Overview action to the workspace navigation so users can return to the routine command centre without leaving the workspace.
 - Refined the dashboard hero, metrics, timetable rows, week grid and quick actions with a scoped navy visual treatment and mobile layouts.
 - No routine data schema, storage keys, or existing feature workflows were changed.
+
+
+### Mobile tools and icon access
+
+- Replaced passive feature tiles with direct, keyboard-accessible tool launch cards.
+- Added task desk, daily planner, smart review and command centre entry points to the workspace navigation.
+- Consolidated the floating module launchers out of the viewport to prevent overlap with page content; the tools remain accessible through the cards and navigation.
+- Added text-glyph fallbacks inside icon placeholders so controls remain identifiable when the external icon library is unavailable.
+- Mobile feature cards use a compact two-column layout, with a single-column fallback on very narrow screens.

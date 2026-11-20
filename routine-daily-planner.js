@@ -26,7 +26,30 @@ html+='</section><section class="mr-daily-section"><h3>Planning notes</h3><div c
 }
 launch.addEventListener("click",function(){render();overlay.hidden=false;overlay.querySelector("#mr-daily-date")?.focus();});
 overlay.addEventListener("change",function(e){if(e.target.id==="mr-daily-date"){render();}});
-overlay.addEventListener("click",function(e){if(e.target===overlay||e.target.closest(".mr-daily-close")){close();return;}if(e.target.closest("[data-daily-refresh]")){render();return;}if(e.target.closest("[data-daily-apply]")){var r=routine();if(!r||!window.MyRoutine?.setClass)return;var date=overlay.querySelector("#mr-daily-date").value,day=DAYS[new Date(date+"T12:00:00").getDay()],selects=overlay.querySelectorAll("[data-daily-period]"),changes=0;selects.forEach(function(sel){var p=r.periods.find(function(x){return String(x.id)===String(sel.dataset.dailyPeriod);}),old=(entriesFor(r,day).find(function(x){return String(x.periodId)===String(sel.dataset.dailyPeriod);})||{}).subjectId||"";if(p&&String(old)!==String(sel.value)){window.MyRoutine.setClass(r,day,p.id,sel.value);changes++;}});render();var note=overlay.querySelector(".mr-daily-note");if(note)note.textContent=changes+" assignment change(s) saved for "+day+". You can still edit them in the routine editor.";}}});
+overlay.addEventListener("click", function (event) {
+  if (event.target === overlay || event.target.closest(".mr-daily-close")) { close(); return; }
+  if (event.target.closest("[data-daily-refresh]")) { render(); return; }
+  if (!event.target.closest("[data-daily-apply]")) return;
+  var current = routine();
+  if (!current || !window.MyRoutine || !window.MyRoutine.setClass) return;
+  var dateField = overlay.querySelector("#mr-daily-date");
+  var selectedDate = dateField && dateField.value || todayISO();
+  var selectedDay = DAYS[new Date(selectedDate + "T12:00:00").getDay()];
+  var selects = overlay.querySelectorAll("[data-daily-period]");
+  var changes = 0;
+  selects.forEach(function (select) {
+    var period = (current.periods || []).find(function (item) { return String(item.id) === String(select.dataset.dailyPeriod); });
+    var existing = entriesFor(current, selectedDay).find(function (entry) { return String(entry.periodId) === String(select.dataset.dailyPeriod); });
+    var oldSubject = existing && existing.subjectId || "";
+    if (period && String(oldSubject) !== String(select.value)) {
+      window.MyRoutine.setClass(current, selectedDay, period.id, select.value);
+      changes++;
+    }
+  });
+  render();
+  var note = overlay.querySelector(".mr-daily-note");
+  if (note) note.textContent = changes + " assignment change(s) saved for " + selectedDay + ". You can still edit them in the routine editor.";
+});
 window.addEventListener("keydown",function(e){if(!overlay.hidden&&e.key==="Escape")close();});
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();

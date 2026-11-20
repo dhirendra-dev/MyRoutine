@@ -591,3 +591,41 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 @media(max-width:700px){.features{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.feature-action{min-height:174px;padding:13px;border-radius:16px}.feature-action .feature-icon{width:36px;height:36px;flex-basis:36px;margin-bottom:9px}.feature-action .feature-icon svg{width:18px;height:18px}.feature-action b{font-size:12px}.feature-action>span:not(.feature-icon){font-size:10px;line-height:1.45}.feature-action .feature-open{margin-top:auto;padding-top:9px;font-size:10px}}
 @media(max-width:360px){.features{grid-template-columns:1fr}.feature-action{min-height:0}}
 @media(prefers-reduced-motion:reduce){.feature-action{transition:none}}
+
+
+/* Reliable icon fallback: render a local glyph whenever Lucide CDN is unavailable. */
+i[data-lucide]{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;line-height:1;font-style:normal}
+i[data-lucide]:empty::before{display:inline-block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-style:normal;font-weight:800;line-height:1;text-align:center}
+i[data-lucide="settings"]::before,i[data-lucide="settings-2"]::before{content:"⚙"}
+i[data-lucide="plus"]::before{content:"＋"}
+i[data-lucide="search"]::before{content:"⌕"}
+i[data-lucide="timer"]::before,i[data-lucide="clock"]::before,i[data-lucide="clock-3"]::before,i[data-lucide="calendar-clock"]::before{content:"◷"}
+i[data-lucide="notebook-pen"]::before,i[data-lucide="book-open"]::before{content:"▤"}
+i[data-lucide="chart-no-axes-combined"]::before,i[data-lucide="chart-bar"]::before,i[data-lucide="chart-line"]::before{content:"▥"}
+i[data-lucide="share-2"]::before,i[data-lucide="share"]::before{content:"↗"}
+i[data-lucide="printer"]::before{content:"▣"}
+i[data-lucide="bell"]::before{content:"♧"}
+i[data-lucide="calendar-days"]::before,i[data-lucide="calendar"]::before{content:"▦"}
+i[data-lucide="database-backup"]::before,i[data-lucide="hard-drive"]::before{content:"▧"}
+i[data-lucide="palette"]::before{content:"◈"}
+i[data-lucide="list-checks"]::before,i[data-lucide="check"]::before{content:"✓"}
+i[data-lucide="sparkles"]::before{content:"✦"}
+i[data-lucide="layout-dashboard"]::before{content:"▦"}
+i[data-lucide="activity"]::before{content:"◉"}
+i[data-lucide="pencil"]::before,i[data-lucide="edit"]::before{content:"✎"}
+i[data-lucide="eye"]::before{content:"◉"}
+i[data-lucide="refresh-cw"]::before{content:"↻"}
+i[data-lucide="trash-2"]::before{content:"⌫"}
+i[data-lucide="copy"]::before{content:"▣"}
+i[data-lucide="download"]::before{content:"↓"}
+i[data-lucide="upload"]::before{content:"↑"}
+i[data-lucide="x"]::before{content:"×"}
+i[data-lucide="chevron-right"]::before{content:"›"}
+i[data-lucide="chevron-left"]::before{content:"‹"}
+i[data-lucide="home"]::before{content:"⌂"}
+i[data-lucide="more-horizontal"]::before{content:"⋯"}
+.icon-btn i[data-lucide]{width:100%;height:100%;font-size:21px}
+.btn i[data-lucide]{font-size:1em;margin-right:5px}
+.workspace-nav-item i[data-lucide]:empty::before{font-size:14px}
+.feature-icon i[data-lucide]:empty::before{font-size:20px}
+@media(max-width:700px){.icon-btn i[data-lucide]{font-size:20px}}

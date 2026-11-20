@@ -90,15 +90,27 @@ If deploying under a subpath (for example a project site at `/MyRoutine/`), upda
 
 ## Project structure
 
-- `index.html` — application shell and home/workspace UI
-- `myroutine.js`, `routine-*.js` — existing routine engine and feature modules
-- `atelier-modules.js` — coordinated styling for independently mounted modules
+The static application keeps stable root-level asset URLs for existing deployments and service-worker compatibility. The large inline shell assets have been extracted into dedicated files:
+
+- `index.html` — semantic application shell, home/workspace markup and script order
+- `app-shell.css` — primary application layout and shell styling (extracted from inline styles)
+- `app-shell.js` — shell controller, navigation actions and workspace orchestration (extracted from inline script)
+- `myroutine-design-system.css` — shared design tokens, responsive refinements and component styling
+- `settings-privacy.js`, `privacy-notice.js` — local privacy controls and first-visit disclosure
+- `myroutine.js` — core routine data model, normalisation and public application API
+- `routine-storage.js`, `routine-data.js`, `routine-backup.js` — persistence, data access and import/export
+- `routine-ui.js`, `routine-dashboard.js`, `routine-view.js`, `routine-editor.js` — shared UI, dashboard and timetable surfaces
+- `routine-calendar.js`, `routine-search.js`, `routine-templates.js`, `routine-share.js`, `routine-print.js` — focused routine tools
+- `routine-settings.js`, `routine-notifications.js` — user preferences and reminder controls
+- `routine-analytics.js`, `routine-analytics-studio.js`, `routine-task-desk.js`, `routine-command-center.js`, `routine-streak-engine.js` — planning, task and insight modules
+- `routine-smart.js`, `routine-daily-planner.js` — read-only schedule analysis and user-approved daily planning
+- `atelier-modules.js`, `atelier-polish.css` — visual integration for independently mounted modules
 - `manifest.webmanifest`, `icons/` — install metadata and app icons
-- `sw.js`, `offline.html` — offline shell and fallback page
-- `pwa.js` — installation, connectivity, command palette and focus timer
-- `routine-smart.js` — read-only routine analysis and schedule recommendations
-- `routine-daily-planner.js` — daily plan suggestions and user-approved schedule updates
-- `routine-streak-engine.js` — local activity streaks, consistency summaries and adjustable focus goal
+- `sw.js`, `offline.html`, `pwa.js` — offline shell, installation, connectivity and focus tools
+
+### Runtime boundaries
+
+The core engine owns routine data and exposes the `window.MyRoutine` API. Feature modules consume that API and communicate through documented window module objects and `myroutine:*` DOM events. The shell owns top-level navigation and workspace orchestration; feature modules should not duplicate shell state. Storage and backup code remain separate from presentation code. Keep the existing root-level filenames until every deployment path and module reference has been migrated and tested; this extraction intentionally avoids a risky mass rename.
 
 ## Change safety
 

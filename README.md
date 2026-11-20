@@ -143,3 +143,10 @@ The Atelier redesign is maintained on `redesign/atelier-productivity` until it h
 - Added local CSS glyph fallbacks for common Lucide icon names. Empty icon nodes now remain identifiable when the external Lucide CDN is blocked, slow, or unavailable.
 - SVG icons remain preferred when Lucide successfully loads; the fallback only appears for empty icon nodes.
 - Bumped the service-worker cache to v18.
+
+
+### Exam Routine
+
+- Dedicated Exam Routine tool uses the active routine's existing calendar events (`type: exam`).
+- Create, edit, delete and filter upcoming, past and all exams; store exam date, subject/title, start/end time, venue and syllabus notes.
+- Includes mobile-first layout and confirmation before deletion. Existing calendar and backup/export paths continue to own exam data.

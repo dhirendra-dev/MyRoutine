@@ -74,7 +74,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .mr-command-panel,.mr-task-stat,.mr-streak-feature,.mr-streak-panel{background:#15243a!important;border-color:#2b3e5a!important}
 .mr-command-actions button,.mr-task-row button,.mr-task-form input,.mr-task-form select,.mr-task-filter,.mr-streak-goalrow select{background:#0d192a!important;border-color:#30445f!important;color:#edf2fb!important}
 .mr-command-actions button.primary,.mr-task-form button{background:#dbe4ff!important;color:#101a32!important}
-#mr-legal-footer{width:min(1320px,calc(100% - 44px));margin:0 auto 24px;padding:20px 0 28px;border-top:1px solid #253650;display:flex;justify-content:space-between;gap:16px;align-items:center;color:#8292aa;font:12px/1.6 inherit}
+#mr-legal-footer{width:min(1320px,calc(100% - 44px));margin:0 auto 24px;padding:20px 0 28px;border-top:1px solid #253650;display:flex;justify-content:space-between;gap:16px;align-items:center;color:#8292aa;font:inherit;font-size:12px;line-height:1.6}
 #mr-legal-footer nav{display:flex;gap:18px;flex-wrap:wrap}
 #mr-legal-footer a{color:#b8c7e4;text-decoration:none}
 #mr-legal-footer a:hover{color:#fff;text-decoration:underline}

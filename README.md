@@ -66,6 +66,10 @@ To force a fresh shell after a deployment, publish the updated `sw.js` and reloa
 
 A non-blocking first-visit disclosure explains the browser-local data model and links to the full legal centre. Dismissing it records only a local acknowledgement in the current browser; it is not represented as legal consent. The notice does not request permissions or transmit preference data.
 
+## Settings & privacy dashboard
+
+The in-app Settings & Privacy dashboard provides a MyRoutine-namespaced storage inventory, JSON export and validated restore, explicit app-data deletion, accessibility preferences (text size, reduced motion and higher contrast), and notification controls. Backups include MyRoutine-prefixed localStorage values only. Deletion is limited to those keys and does not clear unrelated website storage or browser caches. Notification permission is requested only after the user presses the permission button. These controls are local to the current browser; they do not create an account or cloud sync.
+
 ## Legal and privacy
 
 The `/legal.html` page contains the published privacy policy, terms of use, data and storage disclosures, cookies/local storage explanation, security notes, sharing, retention/deletion, children's privacy, intellectual property, disclaimers, liability and contact guidance. The policy describes the current browser-local storage model and explicitly avoids promising cloud sync or account services that are not implemented. The legal page is a project-level template and should be reviewed by a qualified legal professional before commercial use; configure a verified privacy contact before launch.

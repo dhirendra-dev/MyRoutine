@@ -29,7 +29,7 @@ const launch=document.createElement("button");launch.id="mr-command-launch";laun
 const overlay=document.createElement("div");overlay.id="mr-command-overlay";overlay.hidden=true;overlay.innerHTML='<section class="mr-command-card" role="dialog" aria-modal="true" aria-labelledby="mr-command-title"><header class="mr-command-head"><div><div style="color:#aab8ff;font:800 10px system-ui;letter-spacing:.16em">MYROUTINE / OVERVIEW</div><h2 id="mr-command-title">Your day, in one place</h2><p id="mr-command-date"></p></div><button type="button" class="mr-command-close" aria-label="Close">×</button></header><div class="mr-command-body" id="mr-command-content"></div></section>';document.body.append(launch,overlay);
 function render(){
 const r=active(),tasks=read(TASK_KEY),focus=read(FOCUS_KEY),date=iso(),day=DAYS[new Date().getDay()],activeTasks=tasks.filter(x=>!x.done),due=activeTasks.filter(x=>x.due===date),late=activeTasks.filter(x=>x.due<date),done=tasks.filter(x=>x.done);
-const sessions=focus.filter(x=>String(x.date||x.completedAt||x.timestamp||"").slice(0,10)===date),focused=sessions.reduce((n,x)=>n+(Number(x.minutes)||Number(x.duration)||0),0);
+const sessions=focus.filter(x=>{const stamp=Number(x.at);return Number.isFinite(stamp)&&new Date(stamp).toDateString()===new Date().toDateString();}),focused=sessions.reduce((n,x)=>n+(Number(x.seconds)||0)/60,0);
 const entries=r&&r.schedule&&(Array.isArray(r.schedule[day])?r.schedule[day]:r.schedule[day.toLowerCase()])||[],periods=r&&Array.isArray(r.periods)?r.periods:[],schedule=entries.map(e=>({e,p:periods.find(x=>String(x.id)===String(e.periodId))})).filter(x=>x.p).sort((a,b)=>String(a.p.startTime||a.p.start||"").localeCompare(String(b.p.startTime||b.p.start||"")));
 $("#mr-command-date",overlay).textContent=new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 const cards=[[r? schedule.filter(x=>x.e.subjectId).length:0,"Today's assigned slots"],[due.length,"Tasks due today"],[late.length,"Overdue tasks"],[mins(focused),"Focus recorded today"]];
@@ -44,7 +44,7 @@ $("#mr-command-content",overlay).innerHTML=html;
 }
 function close(){overlay.hidden=true;launch.focus();}
 launch.addEventListener("click",()=>{render();overlay.hidden=false;$(".mr-command-close",overlay).focus();});
-overlay.addEventListener("click",e=>{if(e.target===overlay||e.target.closest(".mr-command-close")){close();return;}const b=e.target.closest("[data-action]");if(!b)return;const action=b.dataset.action;close();const ids={editor:"",daily:"#mr-daily-launch",smart:"#mr-smart-launch",tasks:"#mr-task-launch"};if(action==="editor"){if(window.openEditor)window.openEditor();return;}if(ids[action])$(ids[action])?.click();if(action==="focus")$("#mr-focus-launch")?.click();});
+overlay.addEventListener("click",e=>{if(e.target===overlay||e.target.closest(".mr-command-close")){close();return;}const b=e.target.closest("[data-action]");if(!b)return;const action=b.dataset.action;close();const ids={editor:"",daily:"#mr-daily-launch",smart:"#mr-smart-launch",tasks:"#mr-task-launch"};if(action==="editor"){if(window.openEditor)window.openEditor();return;}if(ids[action])$(ids[action])?.click();if(action==="focus"&&window.MyRoutineFocusTimer)window.MyRoutineFocusTimer.open();});
 window.addEventListener("keydown",e=>{if(!overlay.hidden&&e.key==="Escape")close();});
 ["myroutine:ready","myroutine:changed","myroutine:updated","myroutine:saved"].forEach(n=>document.addEventListener(n,()=>{if(!overlay.hidden)render();}));
 }

@@ -521,7 +521,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .workspace-nav-group{display:flex;align-items:center;gap:5px;flex:0 0 auto;padding-right:10px;border-right:1px solid var(--border)}
 .workspace-nav-group:last-child{border-right:0;padding-right:0}
 .workspace-nav-label{padding:0 7px;color:#788aa7;font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
-.workspace-nav-item{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 11px;border:1px solid transparent;border-radius:11px;background:transparent;color:#b7c4da;font:600 11px/1 inherit;white-space:nowrap;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.workspace-nav-item{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 11px;border:1px solid transparent;border-radius:11px;background:transparent;color:#b7c4da;font-family:inherit;font-size:11px;font-weight:600;line-height:1;white-space:nowrap;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
 .workspace-nav-item svg{width:15px;height:15px;flex:0 0 auto}
 .workspace-nav-item:hover,.workspace-nav-item:focus-visible{background:rgba(139,156,255,.12);border-color:rgba(139,156,255,.22);color:#eef2ff}
 .workspace-nav-item[aria-current=page]{background:rgba(139,156,255,.16);border-color:rgba(139,156,255,.28);color:#dce3ff}

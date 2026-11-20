@@ -119,3 +119,11 @@ The core engine owns routine data and exposes the `window.MyRoutine` API. Featur
 ## Change safety
 
 The Atelier redesign is maintained on `redesign/atelier-productivity` until it has been reviewed and tested. Routine data structures and the existing feature-module API are intentionally retained.
+
+
+### Dashboard command-centre refinement
+
+- The active workspace dashboard remains the single owner of `#workspacePanel`; the redundant secondary dashboard mount was removed to prevent competing renderers.
+- Added an Overview action to the workspace navigation so users can return to the routine command centre without leaving the workspace.
+- Refined the dashboard hero, metrics, timetable rows, week grid and quick actions with a scoped navy visual treatment and mobile layouts.
+- No routine data schema, storage keys, or existing feature workflows were changed.

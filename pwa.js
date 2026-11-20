@@ -101,7 +101,8 @@
       ["Browse templates","Start from a ready-made template","layout-template","openTemplates"],
       ["Notifications","Manage reminders","bell","openNotifications"],
       ["Backup and restore","Export or restore your data","hard-drive","openBackup"],
-      ["Print routine","Prepare a print-friendly timetable","printer","printRoutine"]
+      ["Print routine","Prepare a print-friendly timetable","printer","printRoutine"],
+      ["Focus timer","Start a distraction-light study or work session","timer","openFocusTimer"]
     ];
     const iconPaths = {
       plus: '<path d="M12 5v14M5 12h14"/>',
@@ -114,7 +115,8 @@
       "layout-template": '<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/>',
       bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
       "hard-drive": '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18M7 17h.01M11 17h.01"/>',
-      printer: '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/>'
+      printer: '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/>',
+      timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6M12 5V2"/>'
     };
     let filtered=actions,selected=0;
     const render=()=>{
@@ -141,6 +143,98 @@
     render();
   };
 
+  const addFocusTimer = () => {
+    if (window.MyRoutineFocusTimer) return;
+    const KEY = "myroutine_focus_sessions_v1";
+    let duration = 25 * 60;
+    let remaining = duration * 1000;
+    let deadline = 0;
+    let interval = null;
+    let running = false;
+    let mode = "focus";
+    const readSessions = () => {
+      try {
+        const value = JSON.parse(localStorage.getItem(KEY) || "[]");
+        return Array.isArray(value) ? value.filter(x => x && Number.isFinite(x.at) && Number.isFinite(x.seconds)) : [];
+      } catch (_) { return []; }
+    };
+    const todaySessions = () => {
+      const now = new Date();
+      return readSessions().filter(x => {
+        const date = new Date(x.at);
+        return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+      });
+    };
+    const format = ms => {
+      const total = Math.max(0, Math.ceil(ms / 1000));
+      return String(Math.floor(total / 60)).padStart(2,"0") + ":" + String(total % 60).padStart(2,"0");
+    };
+    let overlay;
+    const ensure = () => {
+      if (overlay) return overlay;
+      overlay = document.createElement("div");
+      overlay.id = "mr-focus-timer";
+      overlay.hidden = true;
+      overlay.innerHTML = '<section class="mr-focus-card" role="dialog" aria-modal="true" aria-labelledby="mr-focus-title"><header><div><div class="mr-focus-kicker">MYROUTINE / FOCUS</div><h2 id="mr-focus-title">Focus session</h2></div><button type="button" class="mr-focus-close" aria-label="Close focus timer">×</button></header><div class="mr-focus-modes"><button type="button" data-minutes="25" class="active">25 min</button><button type="button" data-minutes="50">50 min</button><button type="button" data-minutes="90">90 min</button></div><div class="mr-focus-clock" role="timer" aria-live="off">25:00</div><p class="mr-focus-caption">One task at a time. Take a break when you need one.</p><div class="mr-focus-actions"><button type="button" class="mr-focus-primary" data-focus-toggle>Start focus</button><button type="button" data-focus-reset>Reset</button></div><div class="mr-focus-stats"><div><strong data-focus-count>0</strong><span>Sessions today</span></div><div><strong data-focus-total>0m</strong><span>Focused today</span></div></div><p class="mr-focus-note" data-focus-note>Timer runs only in this browser. Completed sessions are saved on this device.</p></section>';
+      const style = document.createElement("style");
+      style.textContent = '#mr-focus-timer{position:fixed;inset:0;z-index:100001;display:grid;place-items:center;padding:18px;background:rgba(2,7,16,.78);backdrop-filter:blur(15px)}#mr-focus-timer[hidden]{display:none}.mr-focus-card{width:min(100%,440px);padding:22px;border:1px solid rgba(180,199,235,.18);border-radius:24px;background:#111b2e;color:#edf3ff;box-shadow:0 32px 100px #0009;text-align:center}.mr-focus-card header{display:flex;align-items:flex-start;justify-content:space-between;text-align:left;gap:12px}.mr-focus-kicker{font:800 10px system-ui;letter-spacing:.16em;color:#9eafff}.mr-focus-card h2{margin:6px 0 0;font:750 21px system-ui;letter-spacing:-.04em}.mr-focus-close{width:35px;height:35px;border:1px solid #ffffff20;border-radius:10px;background:#ffffff09;color:#edf3ff;font-size:22px}.mr-focus-modes{display:flex;justify-content:center;gap:7px;margin:26px 0 12px}.mr-focus-modes button,.mr-focus-actions button{border:1px solid #ffffff20;border-radius:11px;background:#ffffff08;color:#dce5ff;padding:10px 14px;font:650 12px system-ui;cursor:pointer}.mr-focus-modes button.active{border-color:#8b9cff80;background:#8b9cff20;color:#fff}.mr-focus-clock{font:750 clamp(58px,16vw,82px)/1 system-ui;letter-spacing:-.07em;font-variant-numeric:tabular-nums;margin:24px 0 10px}.mr-focus-caption{margin:0;color:#aab8d0;font:13px/1.5 system-ui}.mr-focus-actions{display:flex;justify-content:center;gap:9px;margin:24px 0}.mr-focus-actions .mr-focus-primary{min-width:150px;background:linear-gradient(135deg,#7789f5,#5f70db);border-color:transparent;color:white}.mr-focus-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.mr-focus-stats div{padding:13px;border:1px solid #ffffff15;border-radius:14px;background:#ffffff06}.mr-focus-stats strong,.mr-focus-stats span{display:block}.mr-focus-stats strong{font:750 21px system-ui}.mr-focus-stats span{margin-top:4px;color:#9aaac4;font:11px system-ui}.mr-focus-note{margin:14px 0 0;color:#8494af;font:11px/1.5 system-ui} @media(max-width:480px){.mr-focus-card{padding:18px;border-radius:20px}}';
+      document.head.appendChild(style);
+      document.body.appendChild(overlay);
+      overlay.querySelector(".mr-focus-close").addEventListener("click",close);
+      overlay.addEventListener("click",event=>{if(event.target===overlay)close();});
+      overlay.querySelectorAll("[data-minutes]").forEach(button=>button.addEventListener("click",()=>{
+        if(running)return;
+        duration=Number(button.dataset.minutes)*60;
+        remaining=duration*1000;
+        overlay.querySelectorAll("[data-minutes]").forEach(x=>x.classList.toggle("active",x===button));
+        render();
+      }));
+      overlay.querySelector("[data-focus-toggle]").addEventListener("click",toggle);
+      overlay.querySelector("[data-focus-reset]").addEventListener("click",reset);
+      overlay.addEventListener("keydown",event=>{if(event.key==="Escape")close();});
+      return overlay;
+    };
+    const render = () => {
+      if(!overlay)return;
+      overlay.querySelector(".mr-focus-clock").textContent=format(remaining);
+      overlay.querySelector("[data-focus-toggle]").textContent=running?"Pause":"Start focus";
+      overlay.querySelectorAll("[data-minutes]").forEach(button=>button.disabled=running);
+      const sessions=todaySessions();
+      overlay.querySelector("[data-focus-count]").textContent=String(sessions.length);
+      overlay.querySelector("[data-focus-total]").textContent=Math.round(sessions.reduce((sum,x)=>sum+x.seconds,0)/60)+"m";
+    };
+    const stopTick = () => { if(interval){clearInterval(interval);interval=null;} };
+    const tick = () => {
+      remaining=Math.max(0,deadline-Date.now());
+      render();
+      if(remaining<=0){
+        stopTick();running=false;
+        if(mode==="focus"){
+          const sessions=readSessions();
+          sessions.push({at:Date.now(),seconds:duration});
+          try{localStorage.setItem(KEY,JSON.stringify(sessions.slice(-500)));}catch(_){}
+          render();
+          announce("Focus session complete. Take a short break if you need one.");
+          overlay.querySelector("[data-focus-note]").textContent="Session saved on this device. You can start another session whenever you're ready.";
+        }
+      }
+    };
+    const toggle = () => {
+      if(running){remaining=Math.max(0,deadline-Date.now());running=false;stopTick();render();return;}
+      if(remaining<=0)remaining=duration*1000;
+      running=true;deadline=Date.now()+remaining;
+      overlay.querySelector("[data-focus-note]").textContent="Timer is running. You can pause or close this panel at any time.";
+      interval=setInterval(tick,250);render();
+    };
+    const reset = () => {running=false;stopTick();remaining=duration*1000;render();};
+    const close = () => {if(overlay)overlay.hidden=true;};
+    const open = () => {const node=ensure();node.hidden=false;render();node.querySelector(".mr-focus-close").focus();};
+    window.MyRoutineFocusTimer={open,close,reset};
+    window.openFocusTimer=open;
+    ensure();
+    render();
+  };
+
   const addCommandTrigger = () => {
     const actions=document.querySelector(".top-actions");
     if(!actions||document.getElementById("mr-command-trigger"))return;
@@ -152,7 +246,7 @@
     button.addEventListener("click",()=>window.MyRoutineCommands?.open());
     actions.prepend(button);
   };
-  const initEnhancements = () => { addInstallControl(); addCommandPalette(); addCommandTrigger(); };
+  const initEnhancements = () => { addInstallControl(); addCommandPalette(); addFocusTimer(); addCommandTrigger(); };
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initEnhancements,{once:true});
   else initEnhancements();
 

@@ -15,6 +15,7 @@ MyRoutine is designed as a calm, premium productivity workspace:
 - Built-in focus timer with 25 / 50 / 90-minute presets and local daily session totals
 - Smart Routine Engine for weekly recurring-pattern review, overlapping time detection, missing assignments and flexible gap suggestions
 - Intelligent Daily Planner with date selection, weekly-load balancing suggestions, editable subject choices and explicit approval before saving
+- Task Desk for one-time deadlines and daily / weekly recurring tasks, with overdue and due-today views; task data stays in this browser
 - Drag-and-drop timetable assignment moves and swaps, with keyboard-accessible previous / next period controls
 
 ## Run locally

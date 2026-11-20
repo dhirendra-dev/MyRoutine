@@ -97,3 +97,60 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @keyframes mrPrivacyIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:560px){.mr-privacy-notice{left:10px;bottom:max(10px,env(safe-area-inset-bottom));width:calc(100vw - 20px);grid-template-columns:30px minmax(0,1fr) 22px;gap:9px;padding:13px}.mr-privacy-mark{width:30px;height:30px}.mr-privacy-copy p{font-size:11px}.mr-privacy-actions{gap:10px}}
 @media(prefers-reduced-motion:reduce){.mr-privacy-notice{animation:none}.mr-privacy-notice.is-closing{transition:none}}
+
+
+/* Settings & Privacy dashboard */
+#mr-settings-launch{border:0;background:transparent;color:#c4d1e8;font:inherit;font-size:12px;cursor:pointer;padding:4px 0}
+#mr-settings-launch:hover{color:#fff;text-decoration:underline}
+.mr-settings-floating{position:fixed;left:16px;bottom:16px;z-index:9993;padding:11px 14px;border:1px solid #52698b;border-radius:11px;background:#dbe4ff;color:#101a32;font-weight:750}
+#mr-settings-overlay{position:fixed;inset:0;z-index:100020;display:grid;place-items:center;padding:clamp(10px,3vw,24px);background:#020710e8;backdrop-filter:blur(14px)}
+#mr-settings-overlay[hidden],[data-panel][hidden]{display:none!important}
+.mr-settings-dialog{width:min(100%,820px);max-height:min(92vh,900px);overflow:auto;border:1px solid #2b405e;border-radius:22px;background:#0e192b;color:#edf2fb;box-shadow:0 32px 110px #000b;outline:none}
+.mr-settings-header{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:22px 24px;background:#0e192bf5;border-bottom:1px solid #263a56}
+.mr-settings-kicker{font-size:9px;font-weight:800;letter-spacing:.16em;color:#9aabff}
+.mr-settings-header h2{margin:7px 0 4px;font-size:25px;letter-spacing:-.05em}
+.mr-settings-header p,.mr-settings-section-head p{margin:0;color:#9baac0;font-size:12px;line-height:1.6}
+.mr-settings-close{width:36px;height:36px;border:1px solid #30445f;border-radius:10px;background:#15243a;color:#eaf0fb;font-size:23px;cursor:pointer}
+.mr-settings-tabs{display:flex;gap:7px;padding:13px 20px;border-bottom:1px solid #263a56;overflow-x:auto}
+.mr-settings-tabs button{flex:0 0 auto;padding:9px 13px;border:1px solid transparent;border-radius:9px;background:transparent;color:#9baac0;font-size:12px;font-weight:700;cursor:pointer}
+.mr-settings-tabs button[aria-selected=true]{background:#1b2d49;border-color:#40577b;color:#e8eeff}
+.mr-settings-content{padding:20px 24px 24px}
+.mr-settings-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.mr-settings-section-head h3,.mr-settings-card h3,.mr-settings-danger h3{margin:0 0 5px;font-size:14px;letter-spacing:-.02em}
+.mr-settings-card,.mr-settings-danger{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding:16px;border:1px solid #2b405d;border-radius:14px;background:#142239}
+.mr-settings-card p,.mr-settings-danger p{margin:0;color:#9baac0;font-size:11px;line-height:1.65;max-width:520px}
+.mr-settings-danger{border-color:#68404b;background:#241b29}
+.mr-settings-danger p{color:#c1aeb6}
+.mr-settings-primary,.mr-settings-secondary,.mr-settings-danger-button{flex:0 0 auto;min-height:37px;padding:9px 12px;border:1px solid #425a7d;border-radius:9px;background:#dbe4ff;color:#101a32;font-size:11px;font-weight:800;cursor:pointer}
+.mr-settings-secondary{background:#1b2d49;color:#dce6fa}
+.mr-settings-danger-button{background:#4a2631;border-color:#754553;color:#ffe3e9}
+.mr-settings-file{display:inline-flex;align-items:center}
+.mr-setting-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.mr-setting-metrics>div{padding:13px;border:1px solid #2b405d;border-radius:12px;background:#132239}
+.mr-setting-metrics strong{display:block;font-size:20px;letter-spacing:-.04em}
+.mr-setting-metrics span{display:block;margin-top:3px;color:#9baac0;font-size:10px}
+.mr-setting-storage-list{max-height:180px;overflow:auto;border:1px solid #2b405d;border-radius:11px;background:#0b1524}
+.mr-setting-storage-row{display:flex;justify-content:space-between;gap:12px;padding:9px 11px;border-bottom:1px solid #22344d;font-size:10px}
+.mr-setting-storage-row:last-child{border-bottom:0}
+.mr-setting-storage-row code{overflow-wrap:anywhere;color:#c9d5e9}
+.mr-setting-storage-row span{flex:0 0 auto;color:#9baac0}
+.mr-setting-muted,.mr-setting-note{color:#9baac0;font-size:10px;line-height:1.65}
+.mr-setting-muted{padding:0 12px}
+.mr-setting-note{margin:12px 0 0}
+.mr-settings-choice{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 2px;border-bottom:1px solid #263a56;cursor:pointer}
+.mr-settings-choice strong,.mr-settings-choice small{display:block}
+.mr-settings-choice strong{font-size:12px}
+.mr-settings-choice small{margin-top:4px;color:#9baac0;font-size:10px}
+.mr-settings-choice input[type=checkbox]{width:18px;height:18px;accent-color:#aabaff}
+.mr-settings-choice select{min-width:120px;padding:8px 10px;border:1px solid #405675;border-radius:9px;background:#132239;color:#edf2fb}
+.mr-settings-footer{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-top:1px solid #263a56}
+.mr-settings-footer a{color:#b9c8e5;font-size:11px}
+.mr-settings-footer button{padding:9px 14px;border:1px solid #dbe4ff;border-radius:9px;background:#dbe4ff;color:#101a32;font-weight:800;font-size:11px}
+#mr-settings-status{position:fixed;left:50%;bottom:20px;z-index:100030;transform:translateX(-50%);max-width:calc(100vw - 28px);padding:11px 15px;border:1px solid #435b7c;border-radius:11px;background:#15243a;color:#edf2fb;font-size:12px;box-shadow:0 12px 40px #0008}
+#mr-settings-status[hidden]{display:none}
+html[data-mr-text-size=large] body{font-size:108%}
+html.mr-reduce-motion *,html.mr-reduce-motion *::before,html.mr-reduce-motion *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+html.mr-high-contrast{--line:#536b8c;--muted:#c1cee0}
+html.mr-high-contrast .panel,html.mr-high-contrast .routine-card,html.mr-high-contrast .feature{border-color:#536b8c!important}
+@media(max-width:600px){.mr-settings-header{padding:18px}.mr-settings-content{padding:16px}.mr-settings-card,.mr-settings-danger{align-items:flex-start;flex-direction:column}.mr-settings-primary,.mr-settings-secondary,.mr-settings-danger-button{width:100%;text-align:center}.mr-settings-tabs{padding-inline:12px}.mr-settings-footer{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){#mr-settings-overlay{scroll-behavior:auto}}

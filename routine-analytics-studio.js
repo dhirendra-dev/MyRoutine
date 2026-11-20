@@ -2,7 +2,7 @@
 (function(){
 "use strict";
 if(window.__myRoutineAnalyticsStudio)return;window.__myRoutineAnalyticsStudio=true;
-const TASK_KEY="myroutine_task_desk_v1",FOCUS_KEY="myroutine_focus_sessions_v1",DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const TASK_KEY="myroutine_task_desk_v1",FOCUS_KEY="myroutine_focus_sessions_v1",HISTORY_KEY="myroutine_activity_history_v1",DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const $=(s,r)=>(r||document).querySelector(s),esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const read=k=>{try{const v=JSON.parse(localStorage.getItem(k)||"[]");return Array.isArray(v)?v:[];}catch(_){return [];}};
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -36,9 +36,10 @@ let range=7;
 function render(){
 const now=new Date(),start=new Date(now);start.setHours(0,0,0,0);start.setDate(start.getDate()-range+1);
 const sessions=read(FOCUS_KEY).filter(x=>Number.isFinite(Number(x.at))&&Number.isFinite(Number(x.seconds))&&Number(x.seconds)>0);
-const tasks=read(TASK_KEY),active=tasks.filter(x=>!x.done),completed=tasks.filter(x=>x.done),focusByDay={};
-for(let i=0;i<range;i++){const d=new Date(start);d.setDate(start.getDate()+i);focusByDay[dayKey(d)]=0;}
-sessions.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(focusByDay,k))focusByDay[k]+=Number(x.seconds)/60;});
+const tasks=read(TASK_KEY),active=tasks.filter(x=>!x.done),completed=tasks.filter(x=>x.done),history=read(HISTORY_KEY),taskEvents=history.filter(x=>x&&x.type==="task_completed"&&Number.isFinite(Number(x.at))&&Number(x.at)>=start.getTime()),taskByDay={},focusByDay={},focusBySubject={};
+for(let i=0;i<range;i++){const d=new Date(start);d.setDate(start.getDate()+i);focusByDay[dayKey(d)]=0;taskByDay[dayKey(d)]=0;}
+taskEvents.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(taskByDay,k))taskByDay[k]++;});
+sessions.forEach(x=>{const k=dayKey(new Date(Number(x.at)));if(Object.prototype.hasOwnProperty.call(focusByDay,k))focusByDay[k]+=Number(x.seconds)/60;const label=String(x.subjectName||"General focus");focusBySubject[label]=(focusBySubject[label]||0)+Number(x.seconds)/60;});
 const totalFocus=Object.values(focusByDay).reduce((a,b)=>a+b,0),daysWithFocus=Object.values(focusByDay).filter(x=>x>0).length,avg=daysWithFocus?totalFocus/daysWithFocus:0;
 const r=routine(),subjects={};let weeklyPeriods=0,weeklyMinutes=0;
 if(r){const subjectList=Array.isArray(r.subjects)?r.subjects:[],periods=Array.isArray(r.periods)?r.periods:[];
@@ -47,7 +48,7 @@ DAYS.forEach(day=>{const entries=r.schedule&&(r.schedule[day]||r.schedule[day.to
 const ordered=Object.values(subjects).sort((a,b)=>b.minutes-a.minutes),maxSubject=Math.max(1,...ordered.map(x=>x.minutes));
 const overdue=active.filter(x=>x.due&&x.due<dayKey(now)).length,taskRate=tasks.length?Math.round(completed.length/tasks.length*100):0;
 $("#mr-analytics-subtitle",overlay).textContent="Last "+range+" days · data stored in this browser";
-const cards=[[fmt(totalFocus),"Recorded focus time"],[daysWithFocus+" / "+range,"Days with focus sessions"],[active.length,"Active tasks"],[taskRate+"%","Current task completion"]];
+const cards=[[fmt(totalFocus),"Recorded focus time"],[daysWithFocus+" / "+range,"Days with focus sessions"],[taskEvents.length,"Tasks completed in period"],[taskRate+"%","Current task completion"]];
 let html='<div class="mr-analytics-toolbar"><div class="mr-analytics-tabs" role="group" aria-label="Analytics date range"><button type="button" data-range="7" aria-pressed="'+(range===7)+'">7 days</button><button type="button" data-range="30" aria-pressed="'+(range===30)+'">30 days</button></div><button class="mr-analytics-refresh" type="button" data-refresh>Refresh data</button></div><div class="mr-analytics-grid">'+cards.map(c=>'<div class="mr-analytics-stat"><strong>'+esc(c[0])+'</strong><span>'+esc(c[1])+'</span></div>').join("")+'</div><div class="mr-analytics-panels"><section class="mr-analytics-panel"><h3>Focus activity · daily</h3>';
 const rawVals=Object.entries(focusByDay),vals=range===30?Array.from({length:5},(_,i)=>{const part=rawVals.slice(i*6,(i+1)*6);return ["W"+(i+1),part.reduce((n,x)=>n+x[1],0)];}):rawVals,maxFocus=Math.max(1,...vals.map(x=>x[1]));
 if(totalFocus<=0)html+='<div class="mr-analytics-empty">No completed focus sessions in this period yet. Completed sessions from the Focus Timer will appear here.</div>';
@@ -56,7 +57,16 @@ html+='</section><section class="mr-analytics-panel"><h3>Subject distribution ·
 if(!r||!ordered.length)html+='<div class="mr-analytics-empty">Open a routine with subjects and periods to see its planned weekly distribution.</div>';
 else if(!weeklyMinutes)html+='<div class="mr-analytics-empty">No timed subject periods were found in the active weekly routine.</div>';
 else html+='<div class="mr-analytics-bars">'+ordered.filter(x=>x.minutes>0).map(x=>'<div class="mr-analytics-barrow"><span class="mr-analytics-barlabel" title="'+esc(x.name)+'">'+esc(x.name)+'</span><div class="mr-analytics-track"><div class="mr-analytics-fill" style="width:'+(x.minutes/maxSubject*100)+'%"></div></div><span class="mr-analytics-value">'+fmt(x.minutes)+'</span></div>').join("")+'</div><p class="mr-analytics-muted">'+weeklyPeriods+' assigned periods · '+fmt(weeklyMinutes)+' scheduled per week</p>';
-html+='</section><section class="mr-analytics-panel"><h3>Task snapshot</h3><div class="mr-analytics-bars">'+[['Completed',completed.length],['Active',active.length],['Overdue',overdue]].map(x=>'<div class="mr-analytics-barrow"><span class="mr-analytics-barlabel">'+x[0]+'</span><div class="mr-analytics-track"><div class="mr-analytics-fill" style="width:'+(tasks.length?x[1]/tasks.length*100:0)+'%"></div></div><span class="mr-analytics-value">'+x[1]+'</span></div>').join("")+'</div><p class="mr-analytics-muted">'+tasks.length+' tasks currently saved on this device</p></section><section class="mr-analytics-panel"><h3>At a glance</h3><div class="mr-analytics-row"><p class="mr-analytics-muted">Focus days: '+daysWithFocus+' of '+range+'<br>Average on focus days: '+fmt(avg)+'<br>Weekly planned timetable: '+fmt(weeklyMinutes)+'<br>Overdue tasks: '+overdue+'</p></div></section></div><div class="mr-analytics-note">Important: focus charts show completed timer sessions only. Subject bars show scheduled timetable duration, not verified study time. Task completion is a current snapshot because this local task list does not keep a historical completion log.</div>';
+html+='</section><section class="mr-analytics-panel"><h3>Task completions · history</h3>';
+const taskVals=Object.entries(taskByDay),maxTasks=Math.max(1,...taskVals.map(x=>x[1]));
+if(!taskEvents.length)html+='<div class="mr-analytics-empty">No task completion events recorded in this period yet. New check-offs will appear here.</div>';
+else html+='<div class="mr-analytics-trend">'+(range===30?Array.from({length:5},(_,i)=>{const part=taskVals.slice(i*6,(i+1)*6);return ["W"+(i+1),part.reduce((n,x)=>n+x[1],0)];}):taskVals).map(([k,v])=>'<div class="mr-analytics-day"><b>'+v+'</b><div class="mr-analytics-daybar" style="height:'+Math.max(3,v/maxTasks*100)+'%"></div><small>'+esc(k.slice(5))+'</small></div>').join("")+'</div>';
+html+='</section><section class="mr-analytics-panel"><h3>Actual focus by subject</h3>';
+const subjectRows=Object.entries(focusBySubject).sort((x,y)=>y[1]-x[1]),maxSubjectFocus=Math.max(1,...subjectRows.map(x=>x[1]));
+if(!subjectRows.length)html+='<div class="mr-analytics-empty">Choose a subject in the Focus Timer. Future completed sessions will be attributed here. Older sessions remain included as General focus.</div>';
+else html+='<div class="mr-analytics-bars">'+subjectRows.map(x=>'<div class="mr-analytics-barrow"><span class="mr-analytics-barlabel">'+esc(x[0])+'</span><div class="mr-analytics-track"><div class="mr-analytics-fill" style="width:'+(x[1]/maxSubjectFocus*100)+'%"></div></div><span class="mr-analytics-value">'+fmt(x[1])+'</span></div>').join("")+'</div>';
+html+='</section><section class="mr-analytics-panel"><h3>Current task snapshot</h3><p class="mr-analytics-muted">Active: '+active.length+'<br>Completed one-time tasks: '+completed.length+'<br>Overdue: '+overdue+'<br>Completion rate: '+taskRate+'%</p></section></div>';
+<div class="mr-analytics-note">Historical task counts begin when this update is installed; earlier completions cannot be reconstructed. Focus by subject is recorded for new sessions when you select a subject. Subject timetable bars represent planned time, not actual study time.</div>';
 $("#mr-analytics-content",overlay).innerHTML=html;
 }
 function close(){overlay.hidden=true;launch.focus();}

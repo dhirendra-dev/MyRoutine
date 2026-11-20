@@ -1,5 +1,5 @@
 /* MyRoutine offline worker — same-origin assets only. */
-const CACHE_VERSION = "myroutine-shell-v13";
+const CACHE_VERSION = "myroutine-shell-v14";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -9,6 +9,7 @@ const APP_SHELL = [
   "/icons/icon-512.svg",
   "/icons/icon-maskable.svg",
   "/myroutine.js",
+  "/app-shell.js",
   "/routine-ui.js",
   "/routine-storage.js",
   "/routine-data.js",
@@ -33,6 +34,7 @@ const APP_SHELL = [
   "/routine-command-center.js",
   "/routine-analytics-studio.js",
   "/routine-streak-engine.js",
+  "/app-shell.css",
   "/myroutine-design-system.css",
   "/privacy-notice.js",
   "/settings-privacy.js",
